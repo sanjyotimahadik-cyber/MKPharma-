@@ -1,0 +1,285 @@
+/* ===================================================
+   LOGIN PAGE
+=================================================== */
+
+.page{
+
+    width:100%;
+    min-height:100vh;
+
+    background:#F8FBFF;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+/* ===================================================
+   COMPANY LOGO
+=================================================== */
+
+.top-logo{
+
+    position:absolute;
+
+    top:20px;
+
+    right:35px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    z-index:100;
+
+}
+
+
+/* Crop Area */
+
+.logo-wrapper{
+
+    width:110px;
+
+    height:110px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.logo-img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+    display:block;
+
+}
+
+/* Company Name */
+
+.logo-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+}
+
+.logo-text h2{
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#173F7A;
+
+    line-height:1.1;
+
+}
+
+.logo-text p{
+
+    margin-top:4px;
+
+    font-size:14px;
+
+    color:#666;
+
+}
+
+
+/* ===================================================
+   PAGE HEADING
+=================================================== */
+
+.heading{
+
+    text-align:center;
+
+    padding-top:140px;
+
+}
+.heading h1{
+
+    font-size:48px;
+
+    color:#173F7A;
+
+    font-weight:700;
+
+    letter-spacing:-0.5px;
+
+    line-height:1.2;
+
+}
+
+
+/* ===================================================
+   CARDS
+=================================================== */
+
+.cards{
+
+    width:900px;
+
+    margin:55px auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:30px;
+
+}
+
+
+/* ===================================================
+   SINGLE CARD
+=================================================== */
+
+.card{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:35px 25px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    border:2px solid transparent;
+
+    box-shadow:
+
+        0px 8px 25px rgba(0,0,0,.08);
+
+}
+
+
+/* Hover */
+
+.card:hover{
+
+    transform:
+
+        translateY(-8px);
+
+    border-color:#2F80ED;
+
+    box-shadow:
+
+        0px 18px 40px rgba(47,128,237,.18);
+
+}
+
+
+/* Icon */
+
+.icon{
+
+    font-size:60px;
+
+    margin-bottom:20px;
+
+}
+
+
+/* Card Title */
+
+.card h2{
+
+    color:#173F7A;
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+
+/* ===================================================
+   RESPONSIVE
+=================================================== */
+
+@media(max-width:950px){
+
+.page{
+
+    overflow:auto;
+
+}
+
+.top-logo{
+
+    position:absolute;
+
+    top:25px;
+
+    right:40px;
+}    
+
+.heading{
+
+    padding-top:35px;
+
+}
+
+.heading h1{
+
+    font-size:40px;
+
+}
+
+.heading p{
+
+    font-size:18px;
+
+}
+
+.cards{
+
+    width:92%;
+
+    margin:35px auto;
+
+    grid-template-columns:1fr;
+
+}
+
+.card{
+
+    padding:30px;
+
+}
+
+.icon{
+
+    font-size:50px;
+
+}
+
+.card h2{
+
+    font-size:24px;
+
+}
+
+}

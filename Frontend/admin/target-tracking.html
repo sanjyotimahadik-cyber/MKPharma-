@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Target Tracking | MK Animal Health ERP</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="../css/target-tracking.css">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Google Font -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="target-container">
+
+    <!-- ========================= -->
+    <!-- TOPBAR -->
+    <!-- ========================= -->
+
+    <header class="topbar">
+
+        <div class="page-title">
+
+            <h1>Target Tracking</h1>
+
+        </div>
+
+        <div class="company-info">
+
+            <img src="../assets/logo.png"
+                 alt="Company Logo">
+
+            <div>
+
+                <h3>MK Animal Health</h3>
+
+                <p>ERP System</p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ========================= -->
+    <!-- FILTER SECTION -->
+    <!-- ========================= -->
+
+    <section class="filter-section">
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="targetSearch"
+                placeholder="Search Target...">
+
+        </div>
+
+        <div class="month-filter">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+            <input
+                type="month"
+                id="targetMonth">
+
+        </div>
+
+        <div class="status-filter">
+
+            <i class="fa-solid fa-filter"></i>
+
+            <select id="targetStatus">
+
+                <option value="all">All Status</option>
+
+                <option value="active">Active</option>
+
+                <option value="closed">Closed</option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- TARGET TABLE -->
+    <!-- ========================= -->
+
+    <section class="table-section">
+
+        <div class="table-container">
+
+            <table class="target-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Target ID</th>
+
+                        <th>Target Name</th>
+
+                        <th>Type</th>
+
+                        <th>Start Date</th>
+
+                        <th>End Date</th>
+
+                        <th>Status</th>
+
+                        <th>Progress</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+                        <tr>
+
+                        <td>TG001</td>
+
+                        <td>July Antibiotic Campaign</td>
+
+                        <td>Doctors</td>
+
+                        <td>01 Jul 2026</td>
+
+                        <td>31 Jul 2026</td>
+
+                        <td>
+                            <span class="status active">Active</span>
+                        </td>
+
+                        <td>68%</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>TG002</td>
+
+                        <td>Monsoon Sales Drive</td>
+
+                        <td>Pharmacy</td>
+
+                        <td>05 Jul 2026</td>
+
+                        <td>05 Aug 2026</td>
+
+                        <td>
+                            <span class="status active">Active</span>
+                        </td>
+
+                        <td>42%</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>TG003</td>
+
+                        <td>Vaccine Promotion</td>
+
+                        <td>MR Team</td>
+
+                        <td>01 Jun 2026</td>
+
+                        <td>30 Jun 2026</td>
+
+                        <td>
+                            <span class="status closed">Closed</span>
+                        </td>
+
+                        <td>100%</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>TG004</td>
+
+                        <td>Pain Relief Campaign</td>
+
+                        <td>Doctors</td>
+
+                        <td>10 Jul 2026</td>
+
+                        <td>31 Jul 2026</td>
+
+                        <td>
+                            <span class="status active">Active</span>
+                        </td>
+
+                        <td>27%</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>TG005</td>
+
+                        <td>Deworming Awareness</td>
+
+                        <td>Pharmacy</td>
+
+                        <td>15 Jul 2026</td>
+
+                        <td>15 Aug 2026</td>
+
+                        <td>
+                            <span class="status active">Active</span>
+                        </td>
+
+                        <td>51%</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>TG006</td>
+
+                        <td>Calcium Booster Campaign</td>
+
+                        <td>Doctors</td>
+
+                        <td>20 Jul 2026</td>
+
+                        <td>20 Aug 2026</td>
+
+                        <td>
+                            <span class="status active">Active</span>
+                        </td>
+
+                        <td>35%</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- TARGET LIST -->
+    <!-- ========================= -->
+
+    <section class="target-list-section">
+
+        <h2>Target List</h2>
+
+        <ul class="target-list">
+
+            <li>
+
+                <span>1. July Antibiotic Campaign</span>
+
+                <button class="view-btn"
+                        data-target="campaign1">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    View
+
+                </button>
+
+            </li>
+
+            <li>
+
+                <span>2. Monsoon Sales Drive</span>
+
+                <button class="view-btn"
+                        data-target="campaign2">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    View
+
+                </button>
+
+            </li>
+
+            <li>
+
+                <span>3. Vaccine Promotion</span>
+
+                <button class="view-btn"
+                        data-target="campaign3">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    View
+
+                </button>
+
+            </li>
+
+            <li>
+
+                <span>4. Pain Relief Campaign</span>
+
+                <button class="view-btn"
+                        data-target="campaign4">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                    View
+
+                </button>
+
+            </li>
+
+        </ul>
+
+    </section>
+
+<!-- ========================= -->
+<!-- PART 3 STARTS HERE -->
+<!-- ========================= -->
+     <!-- ========================= -->
+    <!-- TARGET DETAILS MODAL -->
+    <!-- ========================= -->
+
+    <div class="modal-overlay"
+         id="targetModal">
+
+        <div class="target-modal">
+
+            <div class="modal-header">
+
+                <h2 id="modalTitle">
+
+                    July Antibiotic Campaign
+
+                </h2>
+
+                <button class="close-modal"
+                        id="closeModal">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="target-info">
+
+                    <p>
+
+                        <strong>Target Type :</strong>
+
+                        <span id="modalType">
+
+                            Doctors
+
+                        </span>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Target Period :</strong>
+
+                        <span id="modalPeriod">
+
+                            01 Jul 2026 - 31 Jul 2026
+
+                        </span>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Status :</strong>
+
+                        <span class="status active"
+                              id="modalStatus">
+
+                            Active
+
+                        </span>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Overall Completion :</strong>
+
+                        <span id="modalCompletion">
+
+                            68%
+
+                        </span>
+
+                    </p>
+
+                </div>
+
+
+                <div class="top-performers">
+
+                    <h3>Top 3 Performers</h3>
+
+                    <table class="performer-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Rank</th>
+
+                                <th>Name</th>
+
+                                <th>Sales</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>🥇</td>
+
+                                <td id="rank1Name">
+
+                                    Rahul Patil
+
+                                </td>
+
+                                <td id="rank1Sales">
+
+                                    ₹2,35,000
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>🥈</td>
+
+                                <td id="rank2Name">
+
+                                    Sneha More
+
+                                </td>
+
+                                <td id="rank2Sales">
+
+                                    ₹2,05,000
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>🥉</td>
+
+                                <td id="rank3Name">
+
+                                    Amit Deshmukh
+
+                                </td>
+
+                                <td id="rank3Sales">
+
+                                    ₹1,82,000
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<!-- ========================= -->
+<!-- PART 4 STARTS HERE -->
+<!-- ========================= -->
+ <!-- ========================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================= -->
+
+<script src="../js/target-tracking.js"></script>
+
+</body>
+
+</html>                

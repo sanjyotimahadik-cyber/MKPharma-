@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stock Analysis | MK Animal Health ERP</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/stock-analysis.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- ================= Main ================= -->
+
+    <main class="main-content">
+
+        <!-- ===== Top Navigation ===== -->
+
+        <header class="top-navbar">
+
+            <div class="navbar-left">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Search products, batches, categories...">
+
+                </div>
+
+            </div>
+
+            <div class="navbar-right">
+
+                <div class="company-info">
+
+                    <img src="../assets/logo.png"
+                        alt="Company Logo">
+
+                    <div>
+
+                        <h3>MK Animal Health</h3>
+
+                        <p>Admin Panel</p>
+
+                    </div>
+
+                </div>
+
+                <div class="admin-avatar">
+
+                  <i class="fa-solid fa-user-shield"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- ===== Page Heading ===== -->
+
+        <section class="page-header">
+
+            <div>
+
+                <h1>Stock Analysis</h1>
+
+                <p>
+
+                    Dashboard
+                    <i class="fa-solid fa-angle-right"></i>
+
+                    Inventory Management
+                    <i class="fa-solid fa-angle-right"></i>
+
+                    <span>Stock Analysis</span>
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- ================================================= -->
+        <!-- PART 2 STARTS FROM HERE (KPI CARDS) -->
+        <!-- ================================================= -->
+         <!-- ================================================= -->
+<!-- KPI SECTION -->
+<!-- ================================================= -->
+
+<section class="inventory-overview">
+
+    <div class="section-title">
+
+        <div>
+            <h2>Inventory Overview</h2>
+            <p>Monitor product availability and stock performance.</p>
+        </div>
+
+        <div class="overview-actions">
+
+            <button class="btn-export">
+                <i class="fa-solid fa-file-export"></i>
+                Export
+            </button>
+
+            <button class="btn-add-product">
+                <i class="fa-solid fa-plus"></i>
+                Add Product
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="inventory-cards">
+
+        <!-- Total Products -->
+
+        <div class="inventory-card">
+
+            <div class="card-icon blue">
+
+                <i class="fa-solid fa-boxes-stacked"></i>
+
+            </div>
+
+            <div class="card-details">
+
+                <h3>Total Products</h3>
+
+                <h2>28</h2>
+
+                <span>Registered Products</span>
+
+            </div>
+
+        </div>
+
+        <!-- In Stock -->
+
+        <div class="inventory-card">
+
+            <div class="card-icon green">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+            </div>
+
+            <div class="card-details">
+
+                <h3>In Stock</h3>
+
+                <h2>21</h2>
+
+                <span>Available Products</span>
+
+            </div>
+
+        </div>
+
+        <!-- Low Stock -->
+
+        <div class="inventory-card">
+
+            <div class="card-icon orange">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+            </div>
+
+            <div class="card-details">
+
+                <h3>Low Stock</h3>
+
+                <h2>5</h2>
+
+                <span>Need Restocking</span>
+
+            </div>
+
+        </div>
+
+        <!-- Out of Stock -->
+
+        <div class="inventory-card">
+
+            <div class="card-icon red">
+
+                <i class="fa-solid fa-ban"></i>
+
+            </div>
+
+            <div class="card-details">
+
+                <h3>Out of Stock</h3>
+
+                <h2>2</h2>
+
+                <span>Immediate Action</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PART 3 STARTS FROM HERE -->
+<!-- Monthly Sales Chart + Top Selling Products Chart -->
+<!-- ================================================= -->
+ <!-- ================================================= -->
+<!-- CHART SECTION -->
+<!-- ================================================= -->
+
+<section class="charts-section">
+
+    <!-- Monthly Product Sales -->
+
+    <div class="chart-card">
+
+        <div class="chart-header">
+
+            <div>
+
+                <h2>Monthly Product Sales</h2>
+
+                <p>Monthly sales performance of all products</p>
+
+            </div>
+
+            <div class="chart-filter">
+
+                <select>
+
+                    <option>2026</option>
+                    <option>2025</option>
+                    <option>2024</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="chart-body">
+
+            <canvas id="monthlySalesChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- Top Selling Products -->
+
+    <div class="chart-card">
+
+        <div class="chart-header">
+
+            <div>
+
+                <h2>Top Selling Products</h2>
+
+                <p>Best performing products by sales</p>
+
+            </div>
+
+        </div>
+
+        <div class="chart-body doughnut-chart">
+
+            <canvas id="topProductsChart"></canvas>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PRODUCT INVENTORY SECTION -->
+<!-- ================================================= -->
+
+<section class="inventory-table-section">
+
+    <div class="table-header">
+
+        <div>
+
+            <h2>Product Inventory</h2>
+
+            <p>Manage inventory and monitor stock levels.</p>
+
+        </div>
+
+        <div class="table-actions">
+
+            <!-- Search -->
+
+            <div class="table-search">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    placeholder="Search Product...">
+
+            </div>
+
+            <!-- Filter -->
+
+            <select>
+
+                <option>All Status</option>
+                <option>In Stock</option>
+                <option>Low Stock</option>
+                <option>Critical</option>
+                <option>Out of Stock</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+<!-- ================================================= -->
+<!-- PART 4 STARTS FROM HERE -->
+<!-- Product Inventory Table -->
+<!-- ================================================= -->
+ <!-- ================================================= -->
+<!-- PRODUCT INVENTORY TABLE -->
+<!-- ================================================= -->
+
+<div class="table-container">
+
+<table class="inventory-table">
+
+<thead>
+
+<tr>
+
+<th>Product</th>
+<th>Batch No.</th>
+<th>Category</th>
+<th>Stock</th>
+<th>Price (₹)</th>
+<th>Status</th>
+<th>Last Updated</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>AI Care</td>
+<td>AI001</td>
+<td>Feed Supplement</td>
+<td>125</td>
+<td>450</td>
+<td><span class="status in-stock">In Stock</span></td>
+<td>18 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>Calf Boost</td>
+<td>CB102</td>
+<td>Calf Nutrition</td>
+<td>82</td>
+<td>520</td>
+<td><span class="status in-stock">In Stock</span></td>
+<td>17 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>Cal D Boost Gel</td>
+<td>CD201</td>
+<td>Calcium Gel</td>
+<td>18</td>
+<td>690</td>
+<td><span class="status low-stock">Low Stock</span></td>
+<td>18 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>HB Plus</td>
+<td>HB145</td>
+<td>Blood Tonic</td>
+<td>64</td>
+<td>395</td>
+<td><span class="status in-stock">In Stock</span></td>
+<td>15 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>Liv Plus</td>
+<td>LP251</td>
+<td>Liver Tonic</td>
+<td>143</td>
+<td>580</td>
+<td><span class="status in-stock">In Stock</span></td>
+<td>18 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>Minvita Forte</td>
+<td>MF301</td>
+<td>Mineral Mixture</td>
+<td>92</td>
+<td>760</td>
+<td><span class="status in-stock">In Stock</span></td>
+<td>16 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>Miracal Gold</td>
+<td>MG404</td>
+<td>Calcium Supplement</td>
+<td>12</td>
+<td>480</td>
+<td><span class="status critical">Critical</span></td>
+<td>18 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>Stress Out</td>
+<td>SO522</td>
+<td>Stress Management</td>
+<td>0</td>
+<td>615</td>
+<td><span class="status out-stock">Out of Stock</span></td>
+<td>18 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>Super Boost</td>
+<td>SB611</td>
+<td>Feed Supplement</td>
+<td>76</td>
+<td>550</td>
+<td><span class="status in-stock">In Stock</span></td>
+<td>17 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<tr>
+<td>Ultra Care</td>
+<td>UC710</td>
+<td>General Veterinary</td>
+<td>108</td>
+<td>790</td>
+<td><span class="status in-stock">In Stock</span></td>
+<td>18 Jul 2026</td>
+<td class="action-buttons">
+<button class="view-btn"><i class="fa-solid fa-eye"></i></button>
+<button class="edit-btn"><i class="fa-solid fa-pen"></i></button>
+<button class="update-btn"><i class="fa-solid fa-box"></i></button>
+<button class="delete-btn"><i class="fa-solid fa-trash"></i></button>
+</td>
+</tr>
+
+<!-- Continue remaining products in the same format -->
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ================================================= -->
+<!-- PART 5 STARTS FROM HERE -->
+<!-- Update Stock Modal + Logout Modal + Scripts -->
+<!-- ================================================= -->
+ <!-- ================================================= -->
+<!-- UPDATE STOCK MODAL -->
+<!-- ================================================= -->
+
+<div id="stockUpdateModal" class="stock-modal">
+
+    <div class="stock-modal-content">
+
+        <div class="stock-modal-header">
+
+            <h2>
+                <i class="fa-solid fa-box-open"></i>
+                Update Stock
+            </h2>
+
+            <button id="closeStockModal" class="close-modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+        <form id="stockUpdateForm">
+
+            <div class="form-group">
+
+                <label>Product Name</label>
+
+                <input
+                    type="text"
+                    id="productName"
+                    readonly>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Current Stock</label>
+
+                <input
+                    type="number"
+                    id="currentStock"
+                    readonly>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Update Quantity</label>
+
+                <input
+                    type="number"
+                    id="updateQuantity"
+                    placeholder="Enter Quantity">
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Update Type</label>
+
+                <select id="updateType">
+
+                    <option value="add">Add Stock</option>
+
+                    <option value="remove">Remove Stock</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Remarks</label>
+
+                <textarea
+                    id="remarks"
+                    rows="3"
+                    placeholder="Enter Remarks (Optional)"></textarea>
+
+            </div>
+
+            <div class="modal-buttons">
+
+                <button
+                    type="button"
+                    id="cancelStockUpdate"
+                    class="cancel-btn">
+
+                    Cancel
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</main>
+
+</div>
+
+<!-- ================================================= -->
+<!-- SCRIPTS -->
+<!-- ================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="../js/stock-analysis.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Management | MK Animal Health ERP</title>
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="../css/attendance-management.css">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Google Font -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="attendance-container">
+
+    <!-- ========================= -->
+    <!-- TOP BAR -->
+    <!-- ========================= -->
+
+    <header class="topbar">
+
+        <div class="page-title">
+
+            <h1>Attendance Management</h1>
+
+        </div>
+
+        <div class="company-info">
+
+            <img src="../assets/logo.png"
+                 alt="Company Logo">
+
+            <div>
+
+                <h3>MK Animal Health</h3>
+
+                <p>ERP System</p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- ========================= -->
+    <!-- FILTER SECTION -->
+    <!-- ========================= -->
+
+    <section class="filter-section">
+
+        <!-- Search Employee -->
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="employeeSearch"
+                placeholder="Search Employee...">
+
+        </div>
+
+        <!-- Date Filter -->
+
+        <div class="date-filter">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+            <input
+                type="date"
+                id="attendanceDate">
+
+        </div>
+
+        <!-- Status Filter -->
+
+        <div class="status-filter">
+
+            <i class="fa-solid fa-filter"></i>
+
+            <select id="attendanceStatus">
+
+                <option value="all">All Status</option>
+
+                <option value="present">Present</option>
+
+                <option value="absent">Absent</option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+    <!-- ========================= -->
+    <!-- ATTENDANCE TABLE -->
+    <!-- ========================= -->
+
+    <section class="attendance-table-section">
+
+        <div class="table-container">
+
+            <table class="attendance-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+
+                        <th>Mobile No</th>
+
+                        <th>Email</th>
+
+                        <th>Date</th>
+
+                        <th>Status</th>
+
+                        <th>Entry Time</th>
+
+                        <th>Out Time</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+<!-- ========================= -->
+<!-- PART 2 STARTS HERE -->
+<!-- ========================= -->
+                     <tr>
+
+                        <td>Rahul Sharma</td>
+
+                        <td>9876543210</td>
+
+                        <td>rahul@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>09:00 AM</td>
+
+                        <td>06:05 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Amit Patil</td>
+
+                        <td>9865231478</td>
+
+                        <td>amit@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status absent">
+                                Absent
+                            </span>
+                        </td>
+
+                        <td>--</td>
+
+                        <td>--</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Sneha More</td>
+
+                        <td>9822145632</td>
+
+                        <td>sneha@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>08:55 AM</td>
+
+                        <td>05:58 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Priya Desai</td>
+
+                        <td>9834125678</td>
+
+                        <td>priya@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>09:10 AM</td>
+
+                        <td>06:20 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Rohit Jadhav</td>
+
+                        <td>9812345678</td>
+
+                        <td>rohit@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status absent">
+                                Absent
+                            </span>
+                        </td>
+
+                        <td>--</td>
+
+                        <td>--</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Kiran Joshi</td>
+
+                        <td>9845123678</td>
+
+                        <td>kiran@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>08:50 AM</td>
+
+                        <td>05:45 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Neha Kulkarni</td>
+
+                        <td>9873214560</td>
+
+                        <td>neha@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>09:03 AM</td>
+
+                        <td>06:08 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Vikas Patil</td>
+
+                        <td>9867412305</td>
+
+                        <td>vikas@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status absent">
+                                Absent
+                            </span>
+                        </td>
+
+                        <td>--</td>
+
+                        <td>--</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Pooja Shinde</td>
+
+                        <td>9823654781</td>
+
+                        <td>pooja@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>09:06 AM</td>
+
+                        <td>06:01 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Sameer Pawar</td>
+
+                        <td>9814562378</td>
+
+                        <td>sameer@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>08:58 AM</td>
+
+                        <td>06:10 PM</td>
+
+                    </tr>
+
+<!-- ========================= -->
+<!-- PART 3 STARTS HERE -->
+<!-- ========================= -->
+                     <tr>
+
+                        <td>Anjali Kulkarni</td>
+
+                        <td>9874512365</td>
+
+                        <td>anjali@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>09:02 AM</td>
+
+                        <td>06:04 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Sachin More</td>
+
+                        <td>9898745632</td>
+
+                        <td>sachin@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status absent">
+                                Absent
+                            </span>
+                        </td>
+
+                        <td>--</td>
+
+                        <td>--</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Meera Patil</td>
+
+                        <td>9812365478</td>
+
+                        <td>meera@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>08:57 AM</td>
+
+                        <td>05:55 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Nikhil Jadhav</td>
+
+                        <td>9845213678</td>
+
+                        <td>nikhil@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>09:05 AM</td>
+
+                        <td>06:15 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Komal Shinde</td>
+
+                        <td>9823476510</td>
+
+                        <td>komal@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status absent">
+                                Absent
+                            </span>
+                        </td>
+
+                        <td>--</td>
+
+                        <td>--</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Ajay Deshmukh</td>
+
+                        <td>9876541230</td>
+
+                        <td>ajay@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>09:00 AM</td>
+
+                        <td>06:00 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Shweta Pawar</td>
+
+                        <td>9812457630</td>
+
+                        <td>shweta@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>08:53 AM</td>
+
+                        <td>05:59 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Ramesh Chavan</td>
+
+                        <td>9863251478</td>
+
+                        <td>ramesh@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status absent">
+                                Absent
+                            </span>
+                        </td>
+
+                        <td>--</td>
+
+                        <td>--</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Sunita More</td>
+
+                        <td>9832145678</td>
+
+                        <td>sunita@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>09:04 AM</td>
+
+                        <td>06:07 PM</td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Mahesh Patil</td>
+
+                        <td>9870123456</td>
+
+                        <td>mahesh@mkhealth.com</td>
+
+                        <td>19 Jul 2026</td>
+
+                        <td>
+                            <span class="status present">
+                                Present
+                            </span>
+                        </td>
+
+                        <td>08:59 AM</td>
+
+                        <td>06:11 PM</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- ========================= -->
+<!-- PART 4 STARTS HERE -->
+<!-- ========================= -->
+ <!-- ========================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================= -->
+
+<script src="../js/attendance-management.js"></script>
+
+</body>
+
+</html>

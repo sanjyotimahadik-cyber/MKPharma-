@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Product Management</title>
+
+    <!-- Global CSS -->
+
+    <link rel="stylesheet"
+          href="../css/global.css">
+
+    <!-- Page CSS -->
+
+    <link rel="stylesheet"
+          href="../css/product-management.css">
+
+    <!-- Google Font -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ===========================================================
+                        HEADER
+=========================================================== -->
+
+<header class="page-header">
+
+    <!-- Left Side -->
+
+    <div class="header-left">
+
+        <h1>
+
+            Product Management
+
+        </h1>
+
+        <p>
+
+            Manage veterinary products, pricing, inventory,
+            stock availability and product information.
+
+        </p>
+
+    </div>
+
+    <!-- Right Side -->
+
+    <div class="header-right">
+
+        <div class="logo-wrapper">
+
+            <img src="../assets/logo.png"
+                 alt="MK Animal Health"
+                 class="company-logo">
+
+        </div>
+
+        <div class="company-details">
+
+            <h2>
+
+                MK Animal Health
+
+            </h2>
+
+            <span>
+
+                Distribution ERP
+
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+<!-- ===========================================================
+                        TOOLBAR
+=========================================================== -->
+
+<section class="toolbar">
+
+    <button
+        class="add-btn"
+        id="addProduct">
+
+        <i class="fa-solid fa-plus"></i>
+
+        Add Product
+
+    </button>
+
+    <div class="search-box">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+            type="text"
+            id="searchProduct"
+            placeholder="Search Product">
+
+    </div>
+
+    <select id="categoryFilter">
+
+        <option value="All">
+
+            All Categories
+
+        </option>
+
+        <option value="Feed Supplement">
+
+            Feed Supplements
+
+        </option>
+
+        <option value="Veterinary Medicine">
+
+            Veterinary Medicines
+
+        </option>
+
+        <option value="Calcium">
+
+            Calcium & Minerals
+
+        </option>
+
+    </select>
+
+    <select id="sortProducts">
+
+        <option value="default">
+
+            Sort By
+
+        </option>
+
+        <option value="name">
+
+            Product Name
+
+        </option>
+
+        <option value="price">
+
+            Price
+
+        </option>
+
+        <option value="stock">
+
+            Stock
+
+        </option>
+
+    </select>
+
+</section>
+
+
+<!-- ===========================================================
+                    DASHBOARD STATISTICS
+=========================================================== -->
+
+<section class="stats">
+
+    <div class="stat-card">
+
+        <h2>28</h2>
+
+        <p>Total Products</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>16</h2>
+
+        <p>Feed Supplements</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>8</h2>
+
+        <p>Medicines</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>4</h2>
+
+        <p>Low Stock</p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2>1</h2>
+
+        <p>Expired</p>
+
+    </div>
+
+</section>
+<!-- ===========================================================
+                    PRODUCT GRID
+=========================================================== -->
+
+<section
+    class="product-grid"
+    id="productGrid">
+
+    <!--
+        Product cards will be generated
+        automatically using JavaScript.
+    -->
+
+</section>
+
+
+<!-- ===========================================================
+                    PRODUCT DETAILS MODAL
+=========================================================== -->
+
+<div
+    class="product-modal"
+    id="productModal">
+
+    <div class="modal-container">
+
+        <!-- Close Button -->
+
+        <button
+            class="close-modal"
+            id="closeModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <!-- Left Side -->
+
+        <div class="modal-left">
+
+            <button
+                class="slider-btn prev"
+                id="previousImage">
+
+                <i class="fa-solid fa-chevron-left"></i>
+
+            </button>
+
+            <img
+                id="modalImage"
+                src=""
+                alt="Product Image">
+
+            <button
+                class="slider-btn next"
+                id="nextImage">
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </button>
+
+        </div>
+
+
+        <!-- Right Side -->
+
+        <div class="modal-right">
+
+            <h2 id="modalTitle">
+
+                Product Name
+
+            </h2>
+
+            <h3 id="modalPrice">
+
+                ₹0
+
+            </h3>
+
+            <div id="modalDescription"></div>
+
+            <div id="modalBenefits"></div>
+
+            <div id="modalComposition"></div>
+
+            <div id="modalIndications"></div>
+
+            <div id="modalDosage"></div>
+
+            <div id="modalStock"></div>
+
+            <div id="modalExpiry"></div>
+
+            <div class="modal-actions">
+
+                <button
+                    class="update-btn"
+                    id="updateProduct">
+
+                    <i class="fa-solid fa-pen"></i>
+
+                    Update Product
+
+                </button>
+
+                <button
+                    class="delete-btn"
+                    id="deleteProduct">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                    Delete Product
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- ===========================================================
+                ADD / UPDATE PRODUCT POPUP
+=========================================================== -->
+
+<div
+    class="form-modal"
+    id="productFormModal">
+
+    <div class="form-container">
+
+        <!-- Close -->
+
+        <button
+            class="close-form"
+            id="closeForm">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+        <!-- Title -->
+
+        <h2 id="formTitle">
+
+            Add Product
+
+        </h2>
+
+        <!-- Product Form -->
+
+        <form
+            id="productForm"
+            autocomplete="off">
+
+            <!-- Row 1 -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Product Name
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productName"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Category
+
+                    </label>
+
+                    <select id="productCategory">
+
+                        <option>
+
+                            Feed Supplement
+
+                        </option>
+
+                        <option>
+
+                            Veterinary Medicine
+
+                        </option>
+
+                        <option>
+
+                            Calcium
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <!-- Row 2 -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Price (₹)
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productPrice">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Stock
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productStock">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Expiry Date
+
+                    </label>
+
+                    <input
+                        type="date"
+                        id="productExpiry">
+
+                </div>
+
+            </div>
+                        <!-- Row 3 -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Description
+
+                </label>
+
+                <textarea
+                    id="productDescription"
+                    rows="3"></textarea>
+
+            </div>
+
+
+            <!-- Row 4 -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Benefits
+                        <small>(One per line)</small>
+
+                    </label>
+
+                    <textarea
+                        id="productBenefits"
+                        rows="5"></textarea>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Composition
+                        <small>(One per line)</small>
+
+                    </label>
+
+                    <textarea
+                        id="productComposition"
+                        rows="5"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- Row 5 -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Indications
+                        <small>(One per line)</small>
+
+                    </label>
+
+                    <textarea
+                        id="productIndications"
+                        rows="5"></textarea>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Dosage
+
+                    </label>
+
+                    <textarea
+                        id="productDosage"
+                        rows="5"></textarea>
+
+                </div>
+
+            </div>
+
+
+            <!-- Row 6 -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Product Images
+
+                </label>
+
+                <input
+                    type="file"
+                    id="productImages"
+                    multiple
+                    accept="image/*">
+
+                <div
+                    class="image-preview"
+                    id="imagePreview">
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="form-buttons">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    id="cancelForm">
+
+                    Cancel
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                    id="saveProduct">
+
+                    Save Product
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="../js/product-management.js"></script>
+
+</body>
+
+</html>

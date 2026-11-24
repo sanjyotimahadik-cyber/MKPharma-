@@ -1,0 +1,1441 @@
+/*=========================================
+  Employee Dashboard CSS - Part 1
+  General Layout & Header
+=========================================*/
+
+/*========== Main Content ==========*/
+
+.main-content{
+    margin-left:270px;
+    padding:30px;
+    background:#f5f7fb;
+    min-height:100vh;
+}
+
+
+/*========== Header ==========*/
+
+.employee-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    background:#ffffff;
+
+    padding:20px 30px;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+}
+
+
+/*========== Left Section ==========*/
+
+.header-left{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.page-title{
+    font-size:30px;
+    font-weight:700;
+    color:#1e3a8a;
+}
+
+.welcome-text{
+    font-size:16px;
+    color:#666;
+}
+
+.welcome-text span{
+    font-weight:600;
+    color:#111827;
+}
+
+
+/*========== Right Section ==========*/
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+
+/*========== Company Section ==========*/
+
+.company-section{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.company-details{
+    text-align:right;
+}
+
+.company-details h2{
+    font-size:22px;
+    color:#0f172a;
+    margin-bottom:3px;
+}
+
+.company-details p{
+    font-size:14px;
+    color:#64748b;
+}
+
+.company-logo{
+    width:60px;
+    height:60px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:#eef4ff;
+
+    overflow:hidden;
+
+    border:2px solid #dbeafe;
+}
+
+.company-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+
+/*========== Header Icons ==========*/
+
+.icon-btn,
+.profile-btn{
+
+    width:48px;
+    height:48px;
+
+    border:none;
+    outline:none;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    background:#f3f4f6;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+
+    transition:.3s;
+}
+
+.icon-btn:hover,
+.profile-btn:hover{
+
+    background:#2563eb;
+    color:#fff;
+
+    transform:translateY(-2px);
+
+}
+
+.icon-btn i,
+.profile-btn i{
+
+    font-size:22px;
+
+}
+
+
+/*========== Notification Dot ==========*/
+
+.notification-dot{
+
+    position:absolute;
+
+    top:10px;
+    right:12px;
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    border:2px solid #fff;
+
+}
+
+
+/*========== Profile Wrapper ==========*/
+
+.profile-wrapper{
+
+    position:relative;
+
+}
+
+
+/*========== Profile Dropdown ==========*/
+
+.profile-dropdown{
+
+    position:absolute;
+
+    top:60px;
+    right:0;
+
+    width:240px;
+
+    background:#fff;
+
+    border-radius:12px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+
+    overflow:hidden;
+
+    display:none;
+
+    z-index:1000;
+
+}
+
+
+/*========== Profile Header ==========*/
+
+.profile-header{
+
+    padding:18px;
+
+    background:#2563eb;
+
+    color:#fff;
+
+}
+
+.profile-header h3{
+
+    font-size:18px;
+
+    margin-bottom:5px;
+
+}
+
+.profile-header p{
+
+    font-size:13px;
+
+    opacity:.9;
+
+}
+
+
+/*========== Profile Links ==========*/
+
+.profile-dropdown a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:14px 18px;
+
+    color:#374151;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+.profile-dropdown a:hover{
+
+    background:#eff6ff;
+
+    color:#2563eb;
+
+}
+
+.profile-dropdown a i{
+
+    width:20px;
+
+    text-align:center;
+
+}
+/*=========================================
+  Employee Dashboard CSS - Part 2
+  Employee Information Card
+=========================================*/
+
+/*========== Employee Information Card ==========*/
+
+.employee-info-card{
+
+    background:#ffffff;
+
+    border-radius:15px;
+
+    padding:25px 30px;
+
+    margin-bottom:30px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+}
+
+
+/*========== Card Header ==========*/
+
+.card-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:25px;
+
+    padding-bottom:15px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.card-header h2{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:24px;
+
+    color:#1e3a8a;
+
+    font-weight:600;
+
+}
+
+.card-header h2 i{
+
+    color:#2563eb;
+
+}
+
+
+/*========== Information Grid ==========*/
+
+.employee-info-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+
+/*========== Information Box ==========*/
+
+.info-box{
+
+    background:#f8fafc;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:12px;
+
+    padding:18px;
+
+    transition:.3s;
+
+}
+
+.info-box:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 6px 15px rgba(37,99,235,.12);
+
+    border-color:#2563eb;
+
+}
+
+
+/*========== Label ==========*/
+
+.info-box label{
+
+    display:block;
+
+    font-size:13px;
+
+    color:#6b7280;
+
+    margin-bottom:8px;
+
+    font-weight:500;
+
+}
+
+
+/*========== Value ==========*/
+
+.info-box span{
+
+    font-size:17px;
+
+    font-weight:600;
+
+    color:#111827;
+
+    word-break:break-word;
+
+}
+
+
+/*========== Status Badge ==========*/
+
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+/*========== Active Status ==========*/
+
+.status.active{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+
+/*========== Inactive Status ==========*/
+
+.status.inactive{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+
+/*========== Leave Status ==========*/
+
+.status.leave{
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+}
+
+
+/*========== Responsive ==========*/
+
+@media(max-width:1200px){
+
+    .employee-info-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .employee-info-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .employee-info-card{
+
+        padding:20px;
+
+    }
+
+    .card-header h2{
+
+        font-size:20px;
+
+    }
+
+}
+/*=========================================
+  Employee Dashboard CSS - Part 3
+  Today's Attendance Card
+=========================================*/
+
+/*========== Attendance Card ==========*/
+
+.attendance-card{
+
+    background:#ffffff;
+
+    border-radius:15px;
+
+    padding:25px 30px;
+
+    margin-bottom:30px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+}
+
+
+/*========== Attendance Grid ==========*/
+
+.attendance-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    margin-top:20px;
+
+    margin-bottom:30px;
+
+}
+
+
+/*========== Attendance Box ==========*/
+
+.attendance-box{
+
+    background:#f8fafc;
+
+    border:1px solid #e5e7eb;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    transition:.3s;
+
+}
+
+.attendance-box:hover{
+
+    transform:translateY(-3px);
+
+    border-color:#2563eb;
+
+    box-shadow:0 6px 15px rgba(37,99,235,.12);
+
+}
+
+
+/*========== Label ==========*/
+
+.attendance-box label{
+
+    display:block;
+
+    font-size:13px;
+
+    color:#6b7280;
+
+    margin-bottom:10px;
+
+    font-weight:500;
+
+}
+
+
+/*========== Value ==========*/
+
+.attendance-box span{
+
+    font-size:18px;
+
+    font-weight:600;
+
+    color:#111827;
+
+}
+
+
+/*========== Attendance Status ==========*/
+
+.attendance-status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:8px 18px;
+
+    border-radius:30px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+}
+
+
+/* Not Checked In */
+
+.attendance-status.inactive{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+
+/* Checked In */
+
+.attendance-status.active{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+
+/* Completed */
+
+.attendance-status.completed{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+
+/*========== Button Area ==========*/
+
+.attendance-action{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+/*========== Attendance Button ==========*/
+
+.attendance-btn{
+
+    min-width:220px;
+
+    padding:14px 30px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:#ffffff;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    transition:.3s;
+
+}
+
+
+/*========== Hover ==========*/
+
+.attendance-btn:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+    box-shadow:0 8px 18px rgba(37,99,235,.25);
+
+}
+
+
+/*========== Disabled Button ==========*/
+
+.attendance-btn:disabled{
+
+    background:#9ca3af;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
+
+}
+
+
+/*========== Responsive ==========*/
+
+@media(max-width:1200px){
+
+    .attendance-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .attendance-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .attendance-card{
+
+        padding:20px;
+
+    }
+
+    .attendance-btn{
+
+        width:100%;
+
+    }
+
+}
+/*=========================================
+  Employee Dashboard CSS - Part 4
+  Attendance Summary
+=========================================*/
+
+/*========== Attendance Summary ==========*/
+
+.attendance-summary{
+
+    background:#ffffff;
+
+    padding:25px 30px;
+
+    border-radius:15px;
+
+    margin-bottom:30px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+}
+
+
+/*========== Summary Grid ==========*/
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+    margin-top:20px;
+
+}
+
+
+/*========== Summary Card ==========*/
+
+.summary-card{
+
+    background:#ffffff;
+
+    border-radius:15px;
+
+    padding:22px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    border-left:6px solid #2563eb;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.summary-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+}
+
+
+/*========== Summary Icon ==========*/
+
+.summary-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+
+    flex-shrink:0;
+
+}
+
+
+/*========== Summary Content ==========*/
+
+.summary-content{
+
+    flex:1;
+
+}
+
+.summary-content h3{
+
+    font-size:30px;
+
+    font-weight:700;
+
+    color:#111827;
+
+    margin-bottom:5px;
+
+}
+
+.summary-content p{
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#374151;
+
+    margin-bottom:4px;
+
+}
+
+.summary-content span{
+
+    font-size:13px;
+
+    color:#6b7280;
+
+}
+
+
+/*=========================================
+  Present Card
+=========================================*/
+
+.present-card{
+
+    border-left-color:#16a34a;
+
+}
+
+.present-card .summary-icon{
+
+    background:#dcfce7;
+
+    color:#16a34a;
+
+}
+
+
+/*=========================================
+  Absent Card
+=========================================*/
+
+.absent-card{
+
+    border-left-color:#dc2626;
+
+}
+
+.absent-card .summary-icon{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+
+/*=========================================
+  Leave Card
+=========================================*/
+
+.leave-card{
+
+    border-left-color:#d97706;
+
+}
+
+.leave-card .summary-icon{
+
+    background:#fef3c7;
+
+    color:#d97706;
+
+}
+
+
+/*=========================================
+  Attendance Percentage Card
+=========================================*/
+
+.percentage-card{
+
+    border-left-color:#2563eb;
+
+}
+
+.percentage-card .summary-icon{
+
+    background:#dbeafe;
+
+    color:#2563eb;
+
+}
+
+
+/*=========================================
+  Responsive
+=========================================*/
+
+@media(max-width:1200px){
+
+    .summary-grid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .summary-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .attendance-summary{
+
+        padding:20px;
+
+    }
+
+    .summary-card{
+
+        padding:18px;
+
+    }
+
+    .summary-icon{
+
+        width:55px;
+
+        height:55px;
+
+        font-size:24px;
+
+    }
+
+    .summary-content h3{
+
+        font-size:24px;
+
+    }
+
+}
+/*=========================================
+  Employee Dashboard CSS - Part 5 & 6
+  Monthly Attendance
+=========================================*/
+
+/*========== Monthly Attendance Section ==========*/
+
+.monthly-attendance{
+
+    background:#ffffff;
+
+    padding:25px 30px;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+
+}
+
+
+/*========== Toolbar ==========*/
+
+.attendance-toolbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    margin:25px 0;
+
+    flex-wrap:wrap;
+
+}
+
+
+/*========== Left Controls ==========*/
+
+.toolbar-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+
+/*========== Right Controls ==========*/
+
+.toolbar-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+
+/*========== Select Fields ==========*/
+
+.attendance-toolbar select{
+
+    min-width:160px;
+
+    padding:12px 15px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    background:#ffffff;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+.attendance-toolbar select:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+
+/*========== Search Box ==========*/
+
+.search-box{
+
+    position:relative;
+
+}
+
+.search-box i{
+
+    position:absolute;
+
+    left:15px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#6b7280;
+
+}
+
+.search-box input{
+
+    width:280px;
+
+    padding:12px 15px 12px 42px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    outline:none;
+
+    transition:.3s;
+
+    font-size:15px;
+
+}
+
+.search-box input:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+
+/*========== Buttons ==========*/
+
+.refresh-btn,
+.export-btn{
+
+    border:none;
+
+    padding:12px 20px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+
+/* Refresh */
+
+.refresh-btn{
+
+    background:#f3f4f6;
+
+    color:#374151;
+
+}
+
+.refresh-btn:hover{
+
+    background:#e5e7eb;
+
+}
+
+
+/* Export */
+
+.export-btn{
+
+    background:#2563eb;
+
+    color:#ffffff;
+
+}
+
+.export-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+/*=========================================
+  Attendance Table
+=========================================*/
+
+.table-container{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    border-radius:12px;
+
+}
+
+
+/*========== Table ==========*/
+
+.attendance-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:900px;
+
+    background:#ffffff;
+
+}
+
+
+/*========== Table Header ==========*/
+
+.attendance-table thead{
+
+    background:#2563eb;
+
+}
+
+.attendance-table thead th{
+
+    color:#ffffff;
+
+    padding:16px;
+
+    text-align:left;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+
+/*========== Table Body ==========*/
+
+.attendance-table tbody tr{
+
+    border-bottom:1px solid #e5e7eb;
+
+    transition:.3s;
+
+}
+
+.attendance-table tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+.attendance-table tbody td{
+
+    padding:15px;
+
+    color:#374151;
+
+    font-size:15px;
+
+}
+
+
+/*=========================================
+  Status Badges
+=========================================*/
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:90px;
+
+    padding:7px 15px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+/* Present */
+
+.badge.present{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+
+/* Late */
+
+.badge.late{
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+}
+
+
+/* Leave */
+
+.badge.leave{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+
+/* Absent */
+
+.badge.absent{
+
+    background:#fee2e2;
+
+    color:#dc2626;
+
+}
+
+
+/*=========================================
+  Responsive
+=========================================*/
+
+@media(max-width:992px){
+
+    .attendance-toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .toolbar-left,
+    .toolbar-right{
+
+        width:100%;
+
+        justify-content:space-between;
+
+    }
+
+    .search-box input{
+
+        width:100%;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .monthly-attendance{
+
+        padding:20px;
+
+    }
+
+    .toolbar-left,
+    .toolbar-right{
+
+        flex-direction:column;
+
+        align-items:stretch;
+
+    }
+
+    .attendance-toolbar select,
+    .search-box input,
+    .refresh-btn,
+    .export-btn{
+
+        width:100%;
+
+    }
+
+}

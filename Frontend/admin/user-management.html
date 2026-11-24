@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>User Management | MK Animal Health ERP</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="../css/user-management.css">
+
+</head>
+
+<body>
+
+<!-- ===================================================== -->
+<!-- PAGE CONTAINER -->
+<!-- ===================================================== -->
+
+<div class="user-management-page">
+
+    <!-- ================================================ -->
+    <!-- HEADER -->
+    <!-- ================================================ -->
+
+    <header class="page-header">
+
+        <div class="header-left">
+
+            <h1>User Management</h1>
+
+            <p>
+                Manage Employees, Medical Representatives,
+                Doctors and Pharmacies
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ================================================ -->
+    <!-- USER CATEGORY NAVIGATION -->
+    <!-- ================================================ -->
+
+    <section class="user-category-section">
+
+        <button
+            class="category-btn active"
+            id="employeeTab">
+
+            <i class="fa-solid fa-users"></i>
+
+            Employees
+
+        </button>
+
+        <button
+            class="category-btn"
+            id="mrTab">
+
+            <i class="fa-solid fa-user-tie"></i>
+
+            Medical Representatives
+
+        </button>
+
+        <button
+            class="category-btn"
+            id="doctorTab">
+
+            <i class="fa-solid fa-user-doctor"></i>
+
+            Doctors
+
+        </button>
+
+        <button
+            class="category-btn"
+            id="pharmacyTab">
+
+            <i class="fa-solid fa-prescription-bottle-medical"></i>
+
+            Pharmacies
+
+        </button>
+
+    </section>
+
+    <!-- ===================================================== -->
+<!-- TOOLBAR -->
+<!-- ===================================================== -->
+
+<section class="toolbar">
+
+    <!-- Search Box -->
+
+    <div class="search-container">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search here...">
+
+    </div>
+
+    <!-- Filters -->
+
+    <div class="toolbar-right">
+
+        <select
+            id="statusFilter"
+            class="status-filter">
+
+            <option value="All">All Status</option>
+
+            <option value="Active">Active</option>
+
+            <option value="Inactive">Inactive</option>
+
+        </select>
+
+        <button
+            class="refresh-btn"
+            id="refreshBtn">
+
+            <i class="fa-solid fa-rotate-right"></i>
+
+            Refresh
+
+        </button>
+
+        <button
+            class="export-btn"
+            id="exportBtn">
+
+            <i class="fa-solid fa-file-export"></i>
+
+            Export
+
+        </button>
+
+        <button
+            class="add-user-btn"
+            id="addUserBtn">
+
+            <i class="fa-solid fa-plus"></i>
+
+            <span id="addButtonText">
+                Add Employee
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- USER STATISTICS -->
+<!-- ===================================================== -->
+
+<section class="statistics-section">
+
+    <!-- Total Users -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon total-users">
+
+            <i class="fa-solid fa-users"></i>
+
+        </div>
+
+        <div class="stat-details">
+
+            <h4 id="totalUsersCount">0</h4>
+
+            <p id="totalUsersLabel">
+                Total Employees
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Active Users -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon active-users">
+
+            <i class="fa-solid fa-user-check"></i>
+
+        </div>
+
+        <div class="stat-details">
+
+            <h4 id="activeUsersCount">0</h4>
+
+            <p>
+                Active Users
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Inactive Users -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon inactive-users">
+
+            <i class="fa-solid fa-user-xmark"></i>
+
+        </div>
+
+        <div class="stat-details">
+
+            <h4 id="inactiveUsersCount">0</h4>
+
+            <p>
+                Inactive Users
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Performance -->
+
+    <div class="stat-card">
+
+        <div class="stat-icon performance-users">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+        </div>
+
+        <div class="stat-details">
+
+            <h4 id="performanceCount">0%</h4>
+
+            <p id="performanceLabel">
+                Average Performance
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- EMPLOYEE MANAGEMENT -->
+<!-- ===================================================== -->
+
+<section
+    class="table-section"
+    id="employeeSection">
+
+    <div class="table-header">
+
+        <div>
+
+            <h2>Employee List</h2>
+
+            <p>
+                Manage all employees of MK Animal Health.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="table-container">
+
+        <table
+            class="user-table"
+            id="employeeTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Employee Name</th>
+
+                    <th>Department</th>
+
+                    <th>Designation</th>
+
+                    <th>Phone</th>
+
+                    <th>Status</th>
+
+                    <th>Performance</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="employeeTableBody">
+
+                <!-- Employee Records Loaded by JavaScript -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Empty State -->
+
+    <div
+        class="empty-table"
+        id="employeeEmptyState">
+
+        <i class="fa-solid fa-users-slash"></i>
+
+        <h3>No Employees Found</h3>
+
+        <p>
+
+            Click
+
+            <strong>Add Employee</strong>
+
+            to create the first employee.
+
+        </p>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- MEDICAL REPRESENTATIVE MANAGEMENT -->
+<!-- ===================================================== -->
+
+<section
+    class="table-section hidden"
+    id="mrSection">
+
+    <div class="table-header">
+
+        <div>
+
+            <h2>Medical Representatives</h2>
+
+            <p>
+                Manage all Medical Representatives of
+                MK Animal Health.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="table-container">
+
+        <table
+            class="user-table"
+            id="mrTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>MR ID</th>
+
+                    <th>Representative Name</th>
+
+                    <th>Assigned Area</th>
+
+                    <th>Doctors Assigned</th>
+
+                    <th>Monthly Sales</th>
+
+                    <th>Status</th>
+
+                    <th>Performance</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="mrTableBody">
+
+                <!-- MR Records Loaded by JavaScript -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Empty State -->
+
+    <div
+        class="empty-table"
+        id="mrEmptyState">
+
+        <i class="fa-solid fa-user-tie"></i>
+
+        <h3>No Medical Representatives Found</h3>
+
+        <p>
+
+            Click
+
+            <strong>Add MR</strong>
+
+            to register the first Medical Representative.
+
+        </p>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- DOCTOR MANAGEMENT -->
+<!-- ===================================================== -->
+
+<section
+    class="table-section hidden"
+    id="doctorSection">
+
+    <div class="table-header">
+
+        <div>
+
+            <h2>Doctor Management</h2>
+
+            <p>
+                Manage all registered doctors associated
+                with MK Animal Health.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="table-container">
+
+        <table
+            class="user-table"
+            id="doctorTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Doctor ID</th>
+
+                    <th>Doctor Name</th>
+
+                    <th>Specialization</th>
+
+                    <th>Hospital / Clinic</th>
+
+                    <th>Contact Number</th>
+
+                    <th>MR Assigned</th>
+
+                    <th>Monthly Orders</th>
+
+                    <th>Status</th>
+
+                    <th>Performance</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="doctorTableBody">
+
+                <!-- Doctor Records Loaded by JavaScript -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Empty State -->
+
+    <div
+        class="empty-table"
+        id="doctorEmptyState">
+
+        <i class="fa-solid fa-user-doctor"></i>
+
+        <h3>No Doctors Found</h3>
+
+        <p>
+
+            Click
+
+            <strong>Add Doctor</strong>
+
+            to register the first doctor.
+
+        </p>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- PHARMACY MANAGEMENT -->
+<!-- ===================================================== -->
+
+<section
+    class="table-section hidden"
+    id="pharmacySection">
+
+    <div class="table-header">
+
+        <div>
+
+            <h2>Pharmacy Management</h2>
+
+            <p>
+                Manage all pharmacies associated with
+                MK Animal Health.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="table-container">
+
+        <table
+            class="user-table"
+            id="pharmacyTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Pharmacy ID</th>
+
+                    <th>Pharmacy Name</th>
+
+                    <th>Owner Name</th>
+
+                    <th>Location</th>
+
+                    <th>Contact Number</th>
+
+                    <th>Assigned MR</th>
+
+                    <th>Monthly Orders</th>
+
+                    <th>Total Purchase</th>
+
+                    <th>Status</th>
+
+                    <th>Performance</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="pharmacyTableBody">
+
+                <!-- Pharmacy Records Loaded by JavaScript -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- Empty State -->
+
+    <div
+        class="empty-table"
+        id="pharmacyEmptyState">
+
+        <i class="fa-solid fa-prescription-bottle-medical"></i>
+
+        <h3>No Pharmacies Found</h3>
+
+        <p>
+
+            Click
+
+            <strong>Add Pharmacy</strong>
+
+            to register the first pharmacy.
+
+        </p>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- ANALYTICS & PERFORMANCE DASHBOARD -->
+<!-- ===================================================== -->
+
+<section class="analytics-section">
+
+    <div class="analytics-header">
+
+        <div>
+
+            <h2 id="analyticsTitle">
+
+                Employee Performance Analytics
+
+            </h2>
+
+            <p id="analyticsSubtitle">
+
+                Weekly performance analysis of the Top 3 Employees.
+
+            </p>
+
+        </div>
+
+        <div class="analytics-filter">
+
+            <select id="analyticsPeriod">
+
+                <option value="weekly">Weekly</option>
+
+                <option value="monthly" selected>Monthly</option>
+
+                <option value="yearly">Yearly</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    <!-- =============================================== -->
+    <!-- ANALYTICS CARDS -->
+    <!-- =============================================== -->
+
+    <div class="analytics-cards">
+
+        <div class="analytics-card">
+
+            <i class="fa-solid fa-trophy"></i>
+
+            <h4>Best Performer</h4>
+
+            <h3 id="bestPerformerName">
+
+                --
+
+            </h3>
+
+            <p id="bestPerformerScore">
+
+                Performance : --
+
+            </p>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <h4>Average Performance</h4>
+
+            <h3 id="averagePerformance">
+
+                --
+
+            </h3>
+
+            <p>
+
+                Current Period
+
+            </p>
+
+        </div>
+
+        <div class="analytics-card">
+
+            <i class="fa-solid fa-arrow-trend-up"></i>
+
+            <h4>Highest Growth</h4>
+
+            <h3 id="highestGrowth">
+
+                --
+
+            </h3>
+
+            <p>
+
+                Compared to Previous Period
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- =============================================== -->
+    <!-- PERFORMANCE GRAPH -->
+    <!-- =============================================== -->
+
+    <div class="performance-chart-card">
+
+        <div class="chart-header">
+
+            <h3 id="chartTitle">
+
+                Top 3 Performance Comparison
+
+            </h3>
+
+        </div>
+
+        <canvas id="performanceChart">
+
+        </canvas>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
+<!-- EMPLOYEE POPUP -->
+<!-- ===================================================== -->
+
+<div
+    class="popup-overlay"
+    id="employeePopup">
+
+    <div class="popup">
+
+        <div class="popup-header">
+
+            <h2>Add Employee</h2>
+
+            <button
+                class="close-popup"
+                id="closeEmployeePopup">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <form
+            id="employeeForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Employee ID</label>
+                    <input type="text" id="employeeId" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Employee Name</label>
+                    <input type="text" id="employeeName">
+                </div>
+
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" id="department">
+                </div>
+
+                <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" id="designation">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="employeePhone">
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+
+                    <select id="employeeStatus">
+
+                        <option>Active</option>
+                        <option>Inactive</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="popup-buttons">
+
+                <button
+                    type="submit"
+                    id="saveEmployee">
+
+                    Save Employee
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<!-- ===================================================== -->
+<!-- MR POPUP -->
+<!-- ===================================================== -->
+
+<div
+    class="popup-overlay"
+    id="mrPopup">
+
+    <div class="popup">
+
+        <div class="popup-header">
+
+            <h2>Add Medical Representative</h2>
+
+            <button
+                class="close-popup"
+                id="closeMRPopup">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <form id="mrForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>MR ID</label>
+                    <input type="text" id="mrId" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Representative Name</label>
+                    <input type="text" id="mrName">
+                </div>
+
+                <div class="form-group">
+                    <label>Assigned Area</label>
+                    <input type="text" id="assignedArea">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="mrPhone">
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+
+                    <select id="mrStatus">
+
+                        <option>Active</option>
+                        <option>Inactive</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="popup-buttons">
+
+                <button
+                    type="submit"
+                    id="saveMR">
+
+                    Save MR
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<!-- ===================================================== -->
+<!-- DOCTOR POPUP -->
+<!-- ===================================================== -->
+
+<div
+    class="popup-overlay"
+    id="doctorPopup">
+
+    <div class="popup">
+
+        <div class="popup-header">
+
+            <h2>Add Doctor</h2>
+
+            <button
+                class="close-popup"
+                id="closeDoctorPopup">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <form id="doctorForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Doctor ID</label>
+                    <input type="text" id="doctorId" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Doctor Name</label>
+                    <input type="text" id="doctorName">
+                </div>
+
+                <div class="form-group">
+                    <label>Specialization</label>
+                    <input type="text" id="specialization">
+                </div>
+
+                <div class="form-group">
+                    <label>Hospital / Clinic</label>
+                    <input type="text" id="hospital">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="doctorPhone">
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+
+                    <select id="doctorStatus">
+
+                        <option>Active</option>
+                        <option>Inactive</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="popup-buttons">
+
+                <button
+                    type="submit"
+                    id="saveDoctor">
+
+                    Save Doctor
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<!-- ===================================================== -->
+<!-- PHARMACY POPUP -->
+<!-- ===================================================== -->
+
+<div
+    class="popup-overlay"
+    id="pharmacyPopup">
+
+    <div class="popup">
+
+        <div class="popup-header">
+
+            <h2>Add Pharmacy</h2>
+
+            <button
+                class="close-popup"
+                id="closePharmacyPopup">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+        <form id="pharmacyForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Pharmacy ID</label>
+                    <input type="text" id="pharmacyId" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Pharmacy Name</label>
+                    <input type="text" id="pharmacyName">
+                </div>
+
+                <div class="form-group">
+                    <label>Owner Name</label>
+                    <input type="text" id="ownerName">
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" id="location">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="pharmacyPhone">
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+
+                    <select id="pharmacyStatus">
+
+                        <option>Active</option>
+                        <option>Inactive</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="popup-buttons">
+
+                <button
+                    type="submit"
+                    id="savePharmacy">
+
+                    Save Pharmacy
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<!-- ===================================================== -->
+<!-- CHART.JS -->
+<!-- ===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- ===================================================== -->
+<!-- USER MANAGEMENT JS -->
+<!-- ===================================================== -->
+
+<script src="../js/user-management.js"></script>
+
+</body>
+
+</html>

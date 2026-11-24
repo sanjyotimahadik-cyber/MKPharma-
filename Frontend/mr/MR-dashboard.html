@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR Dashboard | MK Animal Health</title>
+
+    <link rel="stylesheet" href="../css/MR-dashboard.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- ===========================
+         TOP BAR
+    ============================ -->
+
+    <header class="topbar">
+
+        <h1>MR Dashboard</h1>
+
+        <div class="company-info">
+
+            <div class="company-text">
+                <h2>MK Animal Health</h2>
+                <span>ERP System</span>
+            </div>
+
+            <img src="../assets/logo.png"
+                 alt="Company Logo"
+                 class="company-logo">
+
+        </div>
+
+    </header>
+
+
+    <!-- ===========================
+         DASHBOARD
+    ============================ -->
+
+    <main class="dashboard-container">
+
+
+        <!-- Attendance -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                <i class="fa-solid fa-user-check"></i>
+            </div>
+
+            <div class="card-content">
+
+                <h3>Attendance</h3>
+
+                <p class="card-value">Present</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Today's Target -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                <i class="fa-solid fa-bullseye"></i>
+            </div>
+
+            <div class="card-content">
+
+                <h3>Today's Target</h3>
+
+                <p class="card-value">5 / 8</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Monthly Target -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+
+            <div class="card-content">
+
+                <h3>Monthly Target</h3>
+
+                <p class="card-value">72 / 120</p>
+
+            </div>
+
+        </div>
+                <!-- Assigned Area -->
+
+        <div class="dashboard-card">
+
+            <div class="card-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <div class="card-content">
+
+                <h3>Assigned Area</h3>
+
+                <p class="card-value">Jalgaon</p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ===========================
+         DOCTORS LIST
+    ============================ -->
+
+    <section class="doctor-section">
+
+        <div class="section-header">
+
+            <h2>Doctors List</h2>
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="doctorSearch"
+                    placeholder="Search Doctor">
+
+            </div>
+
+        </div>
+
+
+        <!-- Doctors Table -->
+
+        <div class="table-container">
+
+            <table class="doctor-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Doctor Name</th>
+
+                        <th>Mobile</th>
+
+                        <th>Area</th>
+
+                        <th>Status</th>
+
+                        <th>Visit</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>Dr. Sharma</td>
+
+                        <td>9876543210</td>
+
+                        <td>Jalgaon</td>
+
+                        <td>
+                            <span class="status pending">
+                                Pending
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="visit-btn">
+                                Visit
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Dr. Patil</td>
+
+                        <td>9876501234</td>
+
+                        <td>Yawal</td>
+
+                        <td>
+                            <span class="status visited">
+                                Visited
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="view-btn">
+                                View
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Dr. Desai</td>
+
+                        <td>9765432101</td>
+
+                        <td>Amalner</td>
+
+                        <td>
+                            <span class="status pending">
+                                Pending
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="visit-btn">
+                                Visit
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Dr. Kulkarni</td>
+
+                        <td>9988776655</td>
+
+                        <td>Bhusawal</td>
+
+                        <td>
+                            <span class="status visited">
+                                Visited
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="view-btn">
+                                View
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>Dr. Joshi</td>
+
+                        <td>9871234567</td>
+
+                        <td>Pachora</td>
+
+                        <td>
+                            <span class="status pending">
+                                Pending
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="visit-btn">
+                                Visit
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===========================
+         VISIT DETAILS MODAL
+    ============================ -->
+
+    <div class="modal" id="visitModal">
+
+        <div class="modal-content">
+
+            <span class="close-btn" id="closeModal">&times;</span>
+
+            <h2>Doctor Visit Details</h2>
+
+            <div class="visit-details">
+
+                <p><strong>Doctor Name:</strong> <span id="doctorName"></span></p>
+
+                <p><strong>Visit Date:</strong> <span id="visitDate"></span></p>
+
+                <p><strong>Visit Time:</strong> <span id="visitTime"></span></p>
+
+                <p><strong>Discussion Notes:</strong></p>
+
+                <textarea
+                    id="discussionNotes"
+                    rows="4"
+                    placeholder="Enter discussion details..."></textarea>
+
+                <p><strong>Products Discussed:</strong></p>
+
+                <input
+                    type="text"
+                    id="productsDiscussed"
+                    placeholder="Enter product names">
+
+                <p><strong>Sample Given:</strong></p>
+
+                <select id="sampleGiven">
+
+                    <option value="Yes">Yes</option>
+
+                    <option value="No">No</option>
+
+                </select>
+
+                <p><strong>Order Received:</strong></p>
+
+                <select id="orderReceived">
+
+                    <option value="Yes">Yes</option>
+
+                    <option value="No">No</option>
+
+                </select>
+
+                <button id="saveVisit" class="save-btn">
+                    Save
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+        <!-- ===========================
+         JAVASCRIPT
+    ============================ -->
+
+    <script src="../js/MR-dashboard.js"></script>
+
+</body>
+
+</html>

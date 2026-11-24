@@ -1,0 +1,75 @@
+@keyframes logoMove{
+
+0%{
+
+    opacity:0;
+
+    transform:
+
+    translate(-50%,220px)
+
+    scale(0.5);
+
+}
+
+100%{
+
+    opacity:1;
+
+    transform:
+
+    translate(-50%,0)
+
+    scale(1);
+
+}
+
+}
+
+@keyframes titleFade{
+
+from{
+
+opacity:0;
+
+transform:
+
+translate(-50%,25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+
+translate(-50%,0);
+
+}
+
+}
+
+@keyframes buttonFade{
+
+from{
+
+opacity:0;
+
+transform:
+
+translate(-50%,20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+
+translate(-50%,0);
+
+}
+
+}

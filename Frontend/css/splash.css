@@ -1,0 +1,155 @@
+/*==========================
+        LOGO
+==========================*/
+
+.logo-container{
+
+    position:absolute;
+
+    left:50%;
+
+    top:13%;
+
+    transform:translateX(-50%);
+
+    opacity:0;
+
+    animation:logoMove 2s ease forwards;
+}
+
+.logo{
+
+    width:120px;
+
+    height:120px;
+
+    object-fit:contain;
+
+    display:block;
+
+    filter:drop-shadow(0px 10px 20px rgba(0,0,0,.10));
+
+}
+
+/*==========================
+      COMPANY NAME
+==========================*/
+
+.company{
+
+    position:absolute;
+
+    left:50%;
+
+    top:34%;
+
+    transform:translateX(-50%);
+
+    text-align:center;
+
+    opacity:0;
+
+    animation:titleFade 1s ease forwards;
+
+    animation-delay:1.8s;
+
+    width:100%;
+}
+
+.company h1{
+
+    font-size:58px;
+
+    color:#173F7A;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+}
+
+.company p{
+
+    margin-top:12px;
+
+    color:#666;
+
+    font-size:21px;
+
+    font-weight:500;
+
+}
+
+/*==========================
+        BUTTON
+==========================*/
+
+#loginBtn{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:13%;
+
+    transform:translateX(-50%);
+
+    width:200px;
+
+    height:72px;
+
+    border:none;
+
+    border-radius:35px;
+
+    background:#123F82;
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    letter-spacing:.3px;
+
+    cursor:pointer;
+
+    opacity:0;
+
+    animation:buttonFade .8s forwards;
+
+    animation-delay:2.6s;
+
+    transition:.3s;
+
+    box-shadow:
+
+    0px 12px 30px rgba(18,63,130,.25);
+
+}
+
+#loginBtn span{
+
+    margin-left:10px;
+
+    transition:.3s;
+
+}
+
+#loginBtn:hover{
+
+    background:#1957A7;
+
+    transform:
+
+    translateX(-50%)
+
+    translateY(-3px);
+
+}
+
+#loginBtn:hover span{
+
+    margin-left:20px;
+
+}
