@@ -149,6 +149,7 @@ export default function Dashboard() {
 
   return (
     <div className={`pg-admin-dashboard${collapsed ? ' collapsed' : ''}`}>
+      <div className="sidebar-backdrop" onClick={() => setCollapsed(false)} />
       <aside className="sidebar">
         <div className="sidebar-logo">
           <img src="/assets/logo.png" alt="MK Animal Health" />
