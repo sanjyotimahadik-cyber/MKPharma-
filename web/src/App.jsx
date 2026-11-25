@@ -16,6 +16,7 @@ const Settings = lazy(() => import('./pages/admin/Settings.jsx'));
 const Billing = lazy(() => import('./pages/admin/Billing.jsx'));
 const Branches = lazy(() => import('./pages/admin/Branches.jsx'));
 const Registrations = lazy(() => import('./pages/admin/Registrations.jsx'));
+const Orders = lazy(() => import('./pages/orders/Orders.jsx'));
 const MRDashboard = lazy(() => import('./pages/mr/MRDashboard.jsx'));
 const CatalogDashboard = lazy(() => import('./pages/catalog/CatalogDashboard.jsx'));
 const EmployeeDashboard = lazy(() => import('./pages/employee/EmployeeDashboard.jsx'));
@@ -41,11 +42,17 @@ export default function App() {
         <Route path="/admin/billing" element={guard('admin', <Billing />)} />
         <Route path="/admin/branches" element={guard('admin', <Branches />)} />
         <Route path="/admin/registrations" element={guard('admin', <Registrations />)} />
+        <Route path="/admin/orders" element={guard('admin', <Orders />)} />
 
         <Route path="/mr" element={guard('mr', <MRDashboard />)} />
         <Route path="/doctor" element={guard('doctor', <CatalogDashboard portal="doctor" />)} />
         <Route path="/pharmacy" element={guard('pharmacy', <CatalogDashboard portal="pharmacy" />)} />
         <Route path="/employee" element={guard('employee', <EmployeeDashboard />)} />
+        {/* Employees share the order desk and inventory pages with admin. */}
+        <Route path="/employee/orders" element={guard('employee', <Orders />)} />
+        <Route path="/employee/inventory" element={guard('employee', <Inventory />)} />
+        <Route path="/employee/products" element={guard('employee', <ProductManagement />)} />
+        <Route path="/employee/stock" element={guard('employee', <StockAnalysis />)} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

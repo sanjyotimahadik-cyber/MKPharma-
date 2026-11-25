@@ -5,10 +5,12 @@ import { UPLOAD_DIR } from '../app.js';
 import { requireRole } from '../auth.js';
 import db, { fromJson, now, toJson } from '../db.js';
 import { badRequest, nextCode, notFound, requireFields } from '../http.js';
+import { STAFF } from '../orderFlow.js';
 import { getSettings } from './settings.js';
 
 const router = Router();
-const admin = requireRole('admin');
+// Catalogue and stock are managed by staff: admin and employees.
+const staff = requireRole(...STAFF);
 
 /** API shape of a product (matches what the React pages render). */
 export const serializeProduct = (p) => ({
@@ -92,7 +94,7 @@ router.get('/', async (_req, res) => {
 });
 
 // Stock movement history, newest first.
-router.get('/stock/transactions', admin, async (req, res) => {
+router.get('/stock/transactions', staff, async (req, res) => {
   const q = db('stock_transactions as t')
     .join('products as p', 'p.id', 't.product_id')
     .leftJoin('users as u', 'u.id', 't.user_id')
@@ -117,7 +119,7 @@ router.get('/stock/transactions', admin, async (req, res) => {
 });
 
 // Units sold per month of ?year= and the best sellers by units (cancelled orders excluded).
-router.get('/stock/summary', admin, async (req, res) => {
+router.get('/stock/summary', staff, async (req, res) => {
   const year = String(Number(req.query.year) || new Date().getFullYear());
   const items = await db('order_items as i')
     .join('orders as o', 'o.id', 'i.order_id')
@@ -147,7 +149,7 @@ router.get('/stock/summary', admin, async (req, res) => {
 
 // Product image upload: { name, dataUrl } -> { url: '/uploads/<file>' }.
 const IMAGE_TYPES = { jpeg: 'jpg', png: 'png', webp: 'webp' };
-router.post('/uploads', admin, async (req, res) => {
+router.post('/uploads', staff, async (req, res) => {
   const match = /^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+/=]+)$/.exec(req.body?.dataUrl ?? '');
   if (!match) throw badRequest('Only JPEG, PNG or WebP images can be uploaded');
   const data = Buffer.from(match[2], 'base64');
@@ -162,21 +164,21 @@ router.get('/:id', async (req, res) => {
   res.json(serializeProduct(await findProduct(db, req.params.id)));
 });
 
-router.post('/', admin, async (req, res) => {
+router.post('/', staff, async (req, res) => {
   requireFields(req.body, ['name', 'category', 'price']);
   const cols = productColumns(req.body);
   cols.reorder_level ??= (await getSettings()).inventory.lowStockLevel;
   const ts = now();
   const id = await db.transaction(async (trx) => {
     const code = await nextCode(trx('products'), 'code', 'MK-', 3);
-    const [newId] = await trx('products').insert({ ...cols, code, created_at: ts, updated_at: ts });
+    const [newId] = await trx('products').insertGetId({ ...cols, code, created_at: ts, updated_at: ts });
     if (cols.stock) await logStock(trx, newId, req.user.id, 'PURCHASE', 0, cols.stock, 'Opening stock');
     return newId;
   });
   res.status(201).json(serializeProduct(await findProduct(db, id)));
 });
 
-router.put('/:id', admin, async (req, res) => {
+router.put('/:id', staff, async (req, res) => {
   const cols = productColumns(req.body);
   await db.transaction(async (trx) => {
     const before = await findProduct(trx, req.params.id);
@@ -189,14 +191,14 @@ router.put('/:id', admin, async (req, res) => {
 });
 
 // Soft delete so past orders keep their product reference.
-router.delete('/:id', admin, async (req, res) => {
+router.delete('/:id', staff, async (req, res) => {
   const p = await findProduct(db, req.params.id);
   await db('products').where({ id: p.id }).update({ status: 'Inactive', updated_at: now() });
   res.status(204).end();
 });
 
 // { type: 'add' | 'remove', quantity, reason } -> updated product.
-router.post('/:id/stock', admin, async (req, res) => {
+router.post('/:id/stock', staff, async (req, res) => {
   const { type, reason } = req.body ?? {};
   const quantity = Number(req.body?.quantity);
   if (!['add', 'remove'].includes(type)) throw badRequest("Type must be 'add' or 'remove'");

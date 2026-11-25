@@ -4,7 +4,7 @@
 Distribution management and field-force app for a veterinary pharmaceutical company, connecting head office, medical representatives (MRs), veterinary doctors, pharmacies and staff.
 
 - **`web/`** — React 19 + Vite single-page app.
-- **`server/`** — Node.js REST API (Express 5 + Knex). Uses SQLite out of the box (`server/data/dev.sqlite3`, created and seeded automatically on first start); switch to MySQL with `server/.env` (see `server/.env.example`).
+- **`server/`** — Node.js REST API (Express 5 + Knex). Uses SQLite out of the box (`server/data/dev.sqlite3`, created and seeded automatically on first start); switch to PostgreSQL (e.g. Supabase) or MySQL with `server/.env` (see `server/.env.example`).
 - **`Database/`** — original MySQL schema drafts (the live schema is `server/migrations/`).
 
 ---
@@ -39,6 +39,22 @@ Demo accounts (seeded):
 | **Employee** | employee@mkanimalhealth.com | demo1234 | `/employee` |
 
 Three pending registration requests are seeded too, so there is something to review straight away.
+
+### Orders and delivery
+
+Doctors and pharmacies place orders from their catalogue portal; stock is reserved immediately and every admin and employee is notified.
+Admins (**Admin → Orders**, `/admin/orders`) and employees (**Work → Orders**, `/employee/orders`) share the same order desk and move each order one step at a time:
+
+`Placed → Confirmed → Packed → Dispatched → Out for Delivery → Delivered`
+
+- Each step is timestamped with who made it and an optional note (vehicle, receiver name…); buyers see it as a tracking timeline in **Order History** and get a notification.
+- **Cancelling** returns the items to stock. Staff can cancel until the order is dispatched; buyers only while it is still *Placed*.
+- Payments can be marked paid from the order desk (including "payment collected" when marking an order delivered) or from **Billing & Finance**.
+- Employees also manage **Inventory** (products, prices, stock in/out, stock analysis); branches, users, billing reports and settings stay admin-only.
+
+### Using PostgreSQL (Supabase)
+
+In `server/.env` set `DB_CLIENT=postgres`, `DATABASE_URL` to the **Session pooler** connection string from Supabase → Connect (without the password) and `DB_PASSWORD` to the database password, then run `npm run db:reset` (or just start the API — an empty database is migrated and seeded automatically). Any other Postgres works the same way; add `DB_SSL=false` for a local server without TLS.
 
 ### Using MySQL
 

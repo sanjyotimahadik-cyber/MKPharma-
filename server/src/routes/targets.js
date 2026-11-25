@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import db, { now } from '../db.js';
+import db, { LIKE, now } from '../db.js';
 import { requireRole } from '../auth.js';
 import { badRequest, notFound, nextCode, requireFields } from '../http.js';
 
@@ -83,7 +83,7 @@ router.get('/', async (req, res) => {
   if (type) q.where('t.type', type);
   if (search) {
     const s = `%${search}%`;
-    q.where((w) => w.where('t.name', 'like', s).orWhere('t.code', 'like', s).orWhere('t.type', 'like', s).orWhere('u.name', 'like', s));
+    q.where((w) => w.where('t.name', LIKE, s).orWhere('t.code', LIKE, s).orWhere('t.type', LIKE, s).orWhere('u.name', LIKE, s));
   }
   if (/^\d{4}-\d{2}$/.test(month ?? '')) q.where('t.start_date', '<=', `${month}-31`).andWhere('t.end_date', '>=', `${month}-01`);
   const rows = await q;
@@ -151,7 +151,7 @@ const findTarget = async (id) => {
 router.post('/', async (req, res) => {
   const data = await columns(req.body ?? {});
   const code = await nextCode(db('targets'), 'code', 'TG', 3);
-  const [id] = await db('targets').insert({ ...data, code, status: 'active', created_by: req.user.id, created_at: data.updated_at });
+  const [id] = await db('targets').insertGetId({ ...data, code, status: 'active', created_by: req.user.id, created_at: data.updated_at });
   res.status(201).json({ id: Number(id), code });
 });
 

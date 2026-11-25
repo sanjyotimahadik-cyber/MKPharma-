@@ -48,7 +48,7 @@ router.post('/', requireRole('employee', 'mr'), async (req, res) => {
   if (overlap) throw new HttpError(409, 'You already have a leave request covering these dates');
 
   const ts = now();
-  const [id] = await db('leave_requests').insert({
+  const [id] = await db('leave_requests').insertGetId({
     user_id: req.user.id, from_date: fromDate, to_date: toDate, type, reason: String(reason).trim(),
     status: 'Pending', created_at: ts, updated_at: ts,
   });

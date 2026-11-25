@@ -1,14 +1,13 @@
 import { Router } from 'express';
 import { requireRole } from '../auth.js';
-import db, { fromJson, now } from '../db.js';
+import db, { fromJson, LIKE, now } from '../db.js';
 import { badRequest, forbidden, nextCode, notFound } from '../http.js';
 import { notify, notifyRole } from '../notify.js';
+import { CANCELLABLE, isStaff, nextStatuses, ORDER_STATUSES, STAFF } from '../orderFlow.js';
 
 const router = Router();
 const BUYERS = ['doctor', 'pharmacy'];
 const PAYMENT_STATUSES = ['Paid', 'Unpaid'];
-// Allowed status moves (admin). Buyers may only cancel their own Pending orders.
-const NEXT = { Pending: ['Processing', 'Cancelled'], Processing: ['Completed', 'Cancelled'], Completed: [], Cancelled: [] };
 const round2 = (n) => Math.round(n * 100) / 100;
 const rupees = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 
@@ -22,7 +21,9 @@ const serializeItem = (i) => ({
   total: Number(i.total),
 });
 
-const serializeOrder = (o, items, buyer) => ({
+const serializeEvent = (e) => ({ status: e.status, note: e.note, at: e.created_at, by: e.by_name ?? null, byRole: e.by_role ?? null });
+
+const serializeOrder = (o, items, buyer, events) => ({
   id: o.id,
   orderNumber: o.order_number,
   invoiceNumber: o.invoice_number,
@@ -36,47 +37,64 @@ const serializeOrder = (o, items, buyer) => ({
   delivery: Number(o.delivery),
   total: Number(o.total),
   createdAt: o.created_at,
+  updatedAt: o.updated_at,
   paidAt: o.paid_at,
   items: items.map(serializeItem),
+  events: events.map(serializeEvent),
 });
 
-/** Attaches items and buyer to order rows (two queries, no N+1). Also used by the admin dashboard. */
+/** Attaches items, buyer and tracking events to order rows (three queries, no N+1). Also used by the admin dashboard. */
 export async function withDetails(rows) {
   if (!rows.length) return [];
-  const [items, buyers] = await Promise.all([
-    db('order_items').whereIn('order_id', rows.map((o) => o.id)).orderBy('id'),
-    db('users').whereIn('id', [...new Set(rows.map((o) => o.buyer_id))]).select('id', 'name', 'code', 'role', 'phone', 'meta'),
+  const ids = rows.map((o) => o.id);
+  const [items, buyers, events] = await Promise.all([
+    db('order_items').whereIn('order_id', ids).orderBy('id'),
+    db('users').whereIn('id', [...new Set(rows.map((o) => o.buyer_id))]).select('id', 'name', 'code', 'role', 'phone', 'email', 'meta'),
+    db('order_events as e').leftJoin('users as u', 'u.id', 'e.user_id').whereIn('e.order_id', ids)
+      .select('e.*', 'u.name as by_name', 'u.role as by_role').orderBy('e.created_at').orderBy('e.id'),
   ]);
   const buyerById = new Map(buyers.map((b) => [b.id, { ...b, meta: fromJson(b.meta, {}) }]));
-  return rows.map((o) => serializeOrder(o, items.filter((i) => i.order_id === o.id), buyerById.get(o.buyer_id) ?? null));
+  const itemsBy = Map.groupBy(items, (i) => i.order_id);
+  const eventsBy = Map.groupBy(events, (e) => e.order_id);
+  return rows.map((o) => serializeOrder(o, itemsBy.get(o.id) ?? [], buyerById.get(o.buyer_id) ?? null, eventsBy.get(o.id) ?? []));
 }
+
+const logEvent = (trx, orderId, status, userId, note, ts) =>
+  trx('order_events').insert({ order_id: orderId, status, note: note?.trim().slice(0, 255) || null, user_id: userId, created_at: ts });
 
 const one = async (id) => (await withDetails([await db('orders').where({ id }).first()]))[0];
 
-/** Loads an order the signed-in user may see (admin: any, buyer: own). */
+/** Loads an order the signed-in user may see (staff: any, buyer: own). */
 async function findOrder(req) {
   const order = await db('orders').where({ id: req.params.id }).first();
-  if (!order || (req.user.role !== 'admin' && order.buyer_id !== req.user.id)) throw notFound('Order');
+  if (!order || (!isStaff(req.user) && order.buyer_id !== req.user.id)) throw notFound('Order');
   return order;
 }
 
-router.use(requireRole('admin', ...BUYERS));
+router.use(requireRole(...STAFF, ...BUYERS));
 
-// Buyers see their own orders; admin sees all, with optional filters.
+// Buyers see their own orders; staff (admin and employees) see all, with optional filters.
+// status may be a comma-separated list, e.g. status=Placed,Confirmed.
 router.get('/', async (req, res) => {
   const { status, paymentStatus, buyerRole, search, from, to } = req.query;
   const q = db('orders as o').join('users as u', 'u.id', 'o.buyer_id').select('o.*').orderBy('o.created_at', 'desc').orderBy('o.id', 'desc');
-  if (req.user.role !== 'admin') q.where('o.buyer_id', req.user.id);
+  if (!isStaff(req.user)) q.where('o.buyer_id', req.user.id);
   else if (buyerRole) q.where('o.buyer_role', buyerRole);
-  if (status) q.where('o.status', status);
+  if (status) q.whereIn('o.status', String(status).split(','));
   if (paymentStatus) q.where('o.payment_status', paymentStatus);
   if (from) q.where('o.created_at', '>=', from);
   if (to) q.where('o.created_at', '<=', `${to} 23:59:59`);
   if (search?.trim()) {
     const like = `%${search.trim()}%`;
-    q.where((w) => w.where('o.order_number', 'like', like).orWhere('o.invoice_number', 'like', like).orWhere('u.name', 'like', like).orWhere('u.code', 'like', like));
+    q.where((w) => w.where('o.order_number', LIKE, like).orWhere('o.invoice_number', LIKE, like).orWhere('u.name', LIKE, like).orWhere('u.code', LIKE, like));
   }
   res.json(await withDetails(await q));
+});
+
+// Number of orders per status, for menu badges ({ Placed: 3, Confirmed: 1, ... }). Staff only.
+router.get('/counts', requireRole(...STAFF), async (_req, res) => {
+  const rows = await db('orders').groupBy('status').select('status').count({ n: '*' });
+  res.json(Object.fromEntries(rows.map((r) => [r.status, Number(r.n)])));
 });
 
 router.get('/:id', async (req, res) => {
@@ -112,12 +130,12 @@ router.post('/', requireRole(...BUYERS), async (req, res) => {
     const delivery = Number(billing.deliveryCharge ?? 0);
     const orderNumber = await nextCode(trx('orders'), 'order_number', 'ORD-', 4);
 
-    const [orderId] = await trx('orders').insert({
+    const [orderId] = await trx('orders').insertGetId({
       order_number: orderNumber,
       invoice_number: orderNumber.replace('ORD', 'INV'),
       buyer_id: req.user.id,
       buyer_role: req.user.role,
-      status: 'Pending',
+      status: 'Placed',
       payment_method: paymentMethod || 'Cash on Delivery',
       payment_status: 'Unpaid',
       subtotal,
@@ -138,24 +156,35 @@ router.post('/', requireRole(...BUYERS), async (req, res) => {
         previous_quantity: p.stock, new_quantity: p.stock - qty, reason: `Order ${orderNumber}`, created_at: ts,
       });
     }
+    await logEvent(trx, orderId, 'Placed', req.user.id, null, ts);
     return orderId;
   });
 
   const order = await one(id);
-  await notifyRole('admin', 'New order', `${req.user.name} placed ${order.orderNumber} for ${rupees(order.total)}`, 'order');
+  await notifyRole(STAFF, 'New order', `${req.user.name} placed ${order.orderNumber} for ${rupees(order.total)}`, 'order');
   res.status(201).json(order);
 });
 
+// Moves an order one step along the flow. Staff: the next step, or Cancelled until it is dispatched.
+// Buyers: only cancel their own order while it is still Placed. An optional note is kept in the timeline.
 router.patch('/:id/status', async (req, res) => {
-  const { status } = req.body ?? {};
+  const { status, note } = req.body ?? {};
+  if (!ORDER_STATUSES.includes(status)) throw badRequest('Unknown order status');
   const order = await findOrder(req);
-  const isAdmin = req.user.role === 'admin';
-  if (!isAdmin && !(status === 'Cancelled' && order.status === 'Pending')) throw forbidden('Only pending orders can be cancelled');
-  if (!NEXT[order.status]?.includes(status)) throw badRequest(`A ${order.status} order cannot be changed to ${status ?? 'that status'}`);
+  const staff = isStaff(req.user);
+  if (!staff && !(status === 'Cancelled' && order.status === 'Placed')) throw forbidden('Orders can only be cancelled before they are confirmed');
+  if (staff && !nextStatuses(order.status).includes(status)) {
+    throw badRequest(status === 'Cancelled' && !CANCELLABLE.includes(order.status)
+      ? `A ${order.status} order can no longer be cancelled`
+      : `A ${order.status} order cannot be changed to ${status}`);
+  }
 
   await db.transaction(async (trx) => {
     const ts = now();
-    await trx('orders').where({ id: order.id }).update({ status, updated_at: ts });
+    // Guarded on the old status so two people updating the same order cannot both succeed.
+    const changed = await trx('orders').where({ id: order.id, status: order.status }).update({ status, updated_at: ts });
+    if (!changed) throw badRequest('This order was just updated by someone else. Refresh and try again.');
+    await logEvent(trx, order.id, status, req.user.id, note, ts);
     if (status !== 'Cancelled') return;
     // Put the stock back.
     for (const item of await trx('order_items').where({ order_id: order.id }).whereNotNull('product_id')) {
@@ -169,12 +198,16 @@ router.patch('/:id/status', async (req, res) => {
     }
   });
 
-  if (isAdmin) await notify(order.buyer_id, `Order ${status.toLowerCase()}`, `Your order ${order.order_number} is now ${status}`, 'order');
-  else await notifyRole('admin', 'Order cancelled', `${req.user.name} cancelled ${order.order_number}`, 'order');
+  if (staff) {
+    const text = status === 'Cancelled' ? 'has been cancelled' : status === 'Delivered' ? 'has been delivered' : `is now ${status}`;
+    await notify(order.buyer_id, `Order ${status}`, `Your order ${order.order_number} ${text}${note?.trim() ? ` (${note.trim()})` : ''}`, 'order');
+  } else {
+    await notifyRole(STAFF, 'Order cancelled', `${req.user.name} cancelled ${order.order_number}`, 'order');
+  }
   res.json(await one(order.id));
 });
 
-router.patch('/:id/payment', requireRole('admin'), async (req, res) => {
+router.patch('/:id/payment', requireRole(...STAFF), async (req, res) => {
   const { paymentStatus, paymentMethod } = req.body ?? {};
   if (!PAYMENT_STATUSES.includes(paymentStatus)) throw badRequest('paymentStatus must be Paid or Unpaid');
   const order = await findOrder(req);

@@ -5,6 +5,7 @@ import { useToast } from '../../components/Toast.jsx';
 import { api, qs } from '../../lib/api.js';
 import { Bar, Doughnut } from '../../lib/charts.js';
 import { formatDate, inr } from '../../lib/format.js';
+import { staffBase } from '../../lib/orders.js';
 import { useApi } from '../../lib/useApi.js';
 import './StockAnalysis.css';
 
@@ -237,7 +238,7 @@ export default function StockAnalysis() {
           </div>
           <div className="overview-actions">
             <button className="btn-export" onClick={() => downloadCsv(visible)}><i className="fa-solid fa-file-export" /> Export</button>
-            <button className="btn-add-product" onClick={() => navigate('/admin/products')}><i className="fa-solid fa-plus" /> Add Product</button>
+            <button className="btn-add-product" onClick={() => navigate(`${staffBase()}/products`)}><i className="fa-solid fa-plus" /> Add Product</button>
           </div>
         </div>
         <div className="inventory-cards">
@@ -310,7 +311,7 @@ export default function StockAnalysis() {
                   <td>
                     <div className="action-buttons">
                       <button className="view-btn" title="View" onClick={() => setModal({ kind: 'view', id: r.id })}><i className="fa-solid fa-eye" /></button>
-                      <button className="edit-btn" title="Edit" onClick={() => navigate('/admin/products')}><i className="fa-solid fa-pen" /></button>
+                      <button className="edit-btn" title="Edit" onClick={() => navigate(`${staffBase()}/products`)}><i className="fa-solid fa-pen" /></button>
                       <button className="update-btn" title="Update Stock" onClick={() => setModal({ kind: 'update', id: r.id })}><i className="fa-solid fa-box" /></button>
                       <button className="delete-btn" title="Delete" onClick={() => setModal({ kind: 'delete', id: r.id })}><i className="fa-solid fa-trash" /></button>
                     </div>

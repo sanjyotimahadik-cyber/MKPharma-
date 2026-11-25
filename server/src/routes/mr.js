@@ -126,7 +126,7 @@ router.post('/visits', async (req, res) => {
     throw new HttpError(409, 'Already visited today. Open the visit to edit it.');
   }
   const ts = now();
-  const [id] = await db('mr_visits').insert({
+  const [id] = await db('mr_visits').insertGetId({
     sample_given: false,
     order_taken: false,
     ...visitFields(req.body),

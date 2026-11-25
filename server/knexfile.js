@@ -1,8 +1,39 @@
 // Knex config shared by the app (src/db.js) and the knex CLI (npm run db:*).
 const env = process.env;
 
+const fromUrl = (url) => {
+  const u = new URL(url);
+  return {
+    host: u.hostname,
+    port: Number(u.port || 5432),
+    user: decodeURIComponent(u.username),
+    password: decodeURIComponent(u.password),
+    database: u.pathname.slice(1) || 'postgres',
+  };
+};
+
+const postgres = async () => {
+  // Return counts (bigint) and decimals as numbers, like the other drivers' callers expect.
+  const { default: pg } = await import('pg');
+  pg.types.setTypeParser(20, Number);
+  pg.types.setTypeParser(1700, parseFloat);
+  return {
+    client: 'pg',
+    connection: {
+      ...fromUrl(env.DATABASE_URL),
+      // DB_PASSWORD (if set) wins, so a password with #, ? or @ needs no URL encoding.
+      ...(env.DB_PASSWORD ? { password: env.DB_PASSWORD } : {}),
+      // Hosted Postgres (Supabase, Neon, …) needs TLS; set DB_SSL=false for a local server.
+      ssl: env.DB_SSL === 'false' ? false : { rejectUnauthorized: false },
+    },
+    pool: { min: 0, max: Number(env.DB_POOL_MAX ?? 10) },
+  };
+};
+
 const connection =
-  env.DB_CLIENT === 'mysql'
+  env.DB_CLIENT === 'postgres'
+    ? await postgres()
+    : env.DB_CLIENT === 'mysql'
     ? {
         client: 'mysql2',
         connection: {

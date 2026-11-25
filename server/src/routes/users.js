@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { publicUser, requireRole } from '../auth.js';
-import db, { now, toJson } from '../db.js';
+import db, { LIKE, now, toJson } from '../db.js';
 import { BUYERS, EMAIL, metaPatch, mrId, passwordHash, PHONE, requireMeta, ROLE } from '../accounts.js';
 import { badRequest, forbidden, nextCode, notFound, pick } from '../http.js';
 import { verifyPassword } from '../password.js';
@@ -151,7 +151,7 @@ router.get('/', admin, async (req, res) => {
   if (status) q.where({ status });
   if (search) {
     const s = `%${String(search).trim()}%`;
-    q.where((b) => b.where('name', 'like', s).orWhere('code', 'like', s).orWhere('phone', 'like', s).orWhere('email', 'like', s));
+    q.where((b) => b.where('name', LIKE, s).orWhere('code', LIKE, s).orWhere('phone', LIKE, s).orWhere('email', LIKE, s));
   }
   const users = (await q).map(publicUser);
   res.json(ROLE[role] ? await withStats(users, role, period) : users);
@@ -169,7 +169,7 @@ router.post('/', admin, async (req, res) => {
     row.password_hash = await passwordHash(body.password);
   }
   const ts = now();
-  const [id] = await db('users').insert({
+  const [id] = await db('users').insertGetId({
     ...row,
     role: body.role,
     status: row.status ?? 'Active',

@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import BackLink from '../../components/BackLink.jsx';
+import { staffBase } from '../../lib/orders.js';
 import './Inventory.css';
 
 const OPTIONS = [
@@ -7,30 +8,33 @@ const OPTIONS = [
     icon: 'fa-box-open',
     title: 'Product Management',
     text: 'Add new products, update existing products, view inventory and manage stock.',
-    to: '/admin/products',
+    to: 'products',
   },
   {
     icon: 'fa-building',
     title: 'Branch Management',
     text: 'Manage all company branches, their managers, contacts and storage capacity.',
-    to: '/admin/branches',
+    to: 'branches',
+    adminOnly: true,
   },
   {
     icon: 'fa-chart-line',
     title: 'Stock Analysis',
     text: 'Monitor low stock, expired products, returned stock and inventory reports.',
-    to: '/admin/stock',
+    to: 'stock',
   },
 ];
 
 export default function Inventory() {
+  const base = staffBase();
+  const options = OPTIONS.filter((o) => !o.adminOnly || base === '/admin');
   return (
     <div className="pg-inventory">
       <header className="inventory-header">
         <div>
           <BackLink />
           <h1>Inventory Management</h1>
-          <p>Manage products, branches and inventory analysis.</p>
+          <p>{base === '/admin' ? 'Manage products, branches and inventory analysis.' : 'Manage products, stock levels and inventory analysis.'}</p>
         </div>
         <div className="header-logo">
           <img src="/assets/logo.png" alt="MK Animal Health" />
@@ -40,8 +44,8 @@ export default function Inventory() {
       </header>
 
       <section className="inventory-options">
-        {OPTIONS.map(({ icon, title, text, to }, i) => (
-          <Link key={title} style={{ '--i': i }} to={to} className="inventory-card">
+        {options.map(({ icon, title, text, to }, i) => (
+          <Link key={title} style={{ '--i': i }} to={`${base}/${to}`} className="inventory-card">
             <div className="card-icon"><i className={`fa-solid ${icon}`} /></div>
             <div className="card-content">
               <h2>{title}</h2>

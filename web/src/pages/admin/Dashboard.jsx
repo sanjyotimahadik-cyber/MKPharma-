@@ -6,11 +6,13 @@ import { api, qs } from '../../lib/api.js';
 import { currentUser, logout } from '../../lib/auth.js';
 import { Bar, Doughnut } from '../../lib/charts.js';
 import { formatDate, inr } from '../../lib/format.js';
+import { statusClass } from '../../lib/orders.js';
 import { useApi } from '../../lib/useApi.js';
 import './Dashboard.css';
 
 const MENU = [
   { icon: 'fa-house', label: 'Dashboard', to: '/admin' },
+  { icon: 'fa-truck-fast', label: 'Orders', to: '/admin/orders', badge: 'orders' },
   { icon: 'fa-boxes-stacked', label: 'Inventory Management', to: '/admin/inventory' },
   { icon: 'fa-users-gear', label: 'User Management', to: '/admin/users' },
   { icon: 'fa-user-plus', label: 'Registration Requests', to: '/admin/registrations', badge: 'registrations' },
@@ -96,6 +98,7 @@ export default function Dashboard() {
   const [year, setYear] = useState('');
   const { data, error, setData } = useApi(`/dashboard${qs({ year })}`);
   const pendingRegistrations = useApi('/registrations?status=Pending').data?.counts.Pending ?? 0;
+  const newOrders = useApi('/orders/counts').data?.Placed ?? 0;
   const [collapsed, setCollapsed] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [search, setSearch] = useState('');
@@ -161,6 +164,7 @@ export default function Dashboard() {
             <Link key={label} to={to} className={`menu-item${to === '/admin' ? ' active' : ''}`} title={label}>
               <i className={`fa-solid ${icon}`} /><span>{label}</span>
               {badge === 'registrations' && pendingRegistrations > 0 && <b className="menu-badge">{pendingRegistrations}</b>}
+              {badge === 'orders' && newOrders > 0 && <b className="menu-badge" title="New orders to confirm">{newOrders}</b>}
             </Link>
           ))}
           <button className="menu-item" onClick={() => setConfirmLogout(true)} title="Logout">
@@ -197,7 +201,7 @@ export default function Dashboard() {
         </section>
 
         <section className="cards">
-          {KPIS.map((k, i) => <KpiCard key={k.key} {...k} {...data?.kpis[k.key]} i={i + 1} />)}
+          {KPIS.map(({ key, ...k }, i) => <KpiCard key={key} {...k} {...data?.kpis[key]} i={i + 1} />)}
         </section>
 
         <section className="chart-section">
@@ -221,7 +225,7 @@ export default function Dashboard() {
         <section className="panel rise" style={{ '--i': 7 }}>
           <div className="chart-header">
             <h2>Recent Orders</h2>
-            <Link to="/admin/billing" className="panel-link">View all <i className="fa-solid fa-arrow-right" /></Link>
+            <Link to="/admin/orders" className="panel-link">View all <i className="fa-solid fa-arrow-right" /></Link>
           </div>
           <div className="table-wrap">
             <table>
@@ -235,7 +239,7 @@ export default function Dashboard() {
                     <td>{o.buyer?.name}</td>
                     <td>{formatDate(o.createdAt)}</td>
                     <td>{inr(o.total)}</td>
-                    <td><span className={`badge ${o.status.toLowerCase()}`}>{o.status}</span></td>
+                    <td><span className={`os os-${statusClass(o.status)}`}>{o.status}</span></td>
                   </tr>
                 ))}
                 {!recent.length && <tr><td colSpan={5} className="muted">{data ? 'No matching orders' : 'Loading…'}</td></tr>}

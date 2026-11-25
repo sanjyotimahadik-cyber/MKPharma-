@@ -1,17 +1,17 @@
 import { useDeferredValue, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import BackLink from '../../components/BackLink.jsx';
 import Modal from '../../components/Modal.jsx';
 import { useToast } from '../../components/Toast.jsx';
 import { api, qs } from '../../lib/api.js';
 import { formatDate, inr } from '../../lib/format.js';
+import { ORDER_STATUSES, statusClass } from '../../lib/orders.js';
 import { useApi } from '../../lib/useApi.js';
 import './Billing.css';
 
-// Status moves the server allows for admin (see PATCH /orders/:id/status).
-const NEXT = { Pending: ['Processing', 'Cancelled'], Processing: ['Completed', 'Cancelled'], Completed: [], Cancelled: [] };
+// Order status is changed on the Orders page (dispatch flow); billing only shows it.
 const FILTERS = [
-  ['status', 'All Statuses', ['Pending', 'Processing', 'Completed', 'Cancelled']],
+  ['status', 'All Statuses', ORDER_STATUSES],
   ['paymentStatus', 'All Payments', ['Paid', 'Unpaid']],
   ['buyerRole', 'All Buyers', ['doctor', 'pharmacy']],
 ];
@@ -93,7 +93,6 @@ export default function Billing() {
   const { data: orders, loading, error, setData } = useApi(`/orders${query}`, []);
   const { data: settings } = useApi('/settings');
   const [invoiceId, setInvoiceId] = useState(null);
-  const [cancelId, setCancelId] = useState(null);
   const [busyId, setBusyId] = useState(null);
 
   useEffect(() => {
@@ -110,7 +109,6 @@ export default function Billing() {
     ['fa-hourglass-half', 'orange', 'Outstanding', inr(sum(billed) - collected), `${billed.filter((o) => o.paymentStatus === 'Unpaid').length} unpaid`],
   ];
   const invoice = orders.find((o) => o.id === invoiceId);
-  const cancelling = orders.find((o) => o.id === cancelId);
 
   async function update(order, path, body, message) {
     setBusyId(order.id);
@@ -125,8 +123,6 @@ export default function Billing() {
     }
   }
 
-  const changeStatus = (o, status) =>
-    status === 'Cancelled' ? setCancelId(o.id) : update(o, 'status', { status }, (n) => `${n.orderNumber} marked ${n.status}`);
   const togglePaid = (o) =>
     update(o, 'payment', { paymentStatus: o.paymentStatus === 'Paid' ? 'Unpaid' : 'Paid' }, (n) => `${n.invoiceNumber} marked ${n.paymentStatus}`);
 
@@ -189,15 +185,7 @@ export default function Billing() {
                   </button>
                 </td>
                 <td>
-                  <select
-                    className={`badge ${o.status.toLowerCase()}`}
-                    value={o.status}
-                    onChange={(e) => changeStatus(o, e.target.value)}
-                    disabled={busyId === o.id || !NEXT[o.status].length}
-                    aria-label="Order status"
-                  >
-                    {[o.status, ...NEXT[o.status]].map((s) => <option key={s}>{s}</option>)}
-                  </select>
+                  <Link to="/admin/orders" className={`os os-${statusClass(o.status)}`} title="Manage on the Orders page">{o.status}</Link>
                 </td>
                 <td>
                   <button className="icon-btn" onClick={() => setInvoiceId(o.id)} title="View invoice" aria-label="View invoice">
@@ -213,22 +201,6 @@ export default function Billing() {
 
       <Modal open={!!invoice} onClose={() => setInvoiceId(null)} className="billing-overlay">
         {invoice && <Invoice order={invoice} company={settings?.company} onClose={() => setInvoiceId(null)} />}
-      </Modal>
-
-      <Modal open={!!cancelling} onClose={() => setCancelId(null)} className="billing-overlay">
-        <div className="confirm">
-          <h2>Cancel order?</h2>
-          <p>{cancelling?.orderNumber} for {cancelling?.buyer?.name} will be cancelled and its items returned to stock.</p>
-          <div className="invoice-actions">
-            <button className="btn ghost" onClick={() => setCancelId(null)}>Keep Order</button>
-            <button
-              className="btn danger"
-              onClick={() => update(cancelling, 'status', { status: 'Cancelled' }, (n) => `${n.orderNumber} cancelled`).then(() => setCancelId(null))}
-            >
-              Cancel Order
-            </button>
-          </div>
-        </div>
       </Modal>
     </div>
   );

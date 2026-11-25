@@ -376,6 +376,48 @@
     }
   }
 
+  /* Work: shortcuts to the order desk and inventory */
+  .work-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .work-tile {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #f8fafc;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color .25s, box-shadow .25s, transform .25s;
+
+    &:hover { transform: translateY(-2px); border-color: var(--blue); box-shadow: 0 8px 20px rgba(37, 99, 235, .12); .go { color: var(--blue); transform: translateX(3px); } }
+    > div { flex: 1; min-width: 0; }
+    h3 { font-size: 18px; font-weight: 600; }
+    p { margin-top: 2px; font-size: 13.5px; color: var(--muted); }
+    .go { margin-top: 4px; color: #94a3b8; transition: .25s; }
+  }
+  .work-icon {
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    flex: none;
+    border-radius: 12px;
+    font-size: 21px;
+    &.blue { background: #dbeafe; color: #1d4ed8; }
+    &.green { background: #dcfce7; color: #15803d; }
+  }
+  .work-counts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+    list-style: none;
+    li { padding: 3px 10px; border-radius: 99px; background: #eef2f7; color: #475569; font-size: 12.5px; }
+    li.has { background: #fef3c7; color: #92400e; }
+    b { font-weight: 700; }
+  }
+
   .emp-modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
   .emp-modal-actions .export-btn:disabled { opacity: .6; }
 
@@ -384,6 +426,7 @@
   }
 
   @media (max-width: 900px) {
+    .work-grid { grid-template-columns: 1fr; }
     .employee-header { flex-direction: column; align-items: flex-start; }
     .header-right { width: 100%; justify-content: flex-start; }
     .company-section { flex-direction: row-reverse; margin-right: auto; }

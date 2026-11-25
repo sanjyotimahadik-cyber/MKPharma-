@@ -80,7 +80,7 @@ export async function up(knex) {
     t.string('order_number', 30).notNullable().unique();
     t.integer('buyer_id').unsigned().notNullable().references('users.id').index();
     t.string('buyer_role', 20).notNullable(); // doctor | pharmacy
-    t.string('status', 20).notNullable().defaultTo('Pending'); // Pending | Processing | Completed | Cancelled
+    t.string('status', 20).notNullable().defaultTo('Pending'); // see src/orderFlow.js (Placed … Delivered, Cancelled); renamed in 003
     t.string('payment_method', 40);
     t.string('payment_status', 20).notNullable().defaultTo('Unpaid'); // Unpaid | Paid
     t.string('invoice_number', 30).unique();

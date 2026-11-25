@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Modal from '../../components/Modal.jsx';
+import OrderTracker from '../../components/OrderTracker.jsx';
 import { useToast } from '../../components/Toast.jsx';
 import { api } from '../../lib/api.js';
 import { logout } from '../../lib/auth.js';
 import { formatDate, inr } from '../../lib/format.js';
+import { STATUS_ICON, statusClass } from '../../lib/orders.js';
 import { isExpired } from '../../lib/products.js';
 import { useApi } from '../../lib/useApi.js';
 import './CatalogDashboard.css';
@@ -150,7 +152,7 @@ export default function CatalogDashboard({ portal }) {
   const navigate = useNavigate();
   const toast = useToast();
   const { data: products, loading, error, reload: reloadProducts } = useApi('/products', []);
-  const { data: orders, setData: setOrders } = useApi('/orders', []);
+  const { data: orders, setData: setOrders, reload: reloadOrders } = useApi('/orders', []);
   const { data: settings } = useApi('/settings');
   const { data: targets } = useApi('/targets/mine', []);
   const [search, setSearch] = useState('');
@@ -276,7 +278,7 @@ export default function CatalogDashboard({ portal }) {
           <i className="fa-solid fa-magnifying-glass" />
           <input type="text" placeholder="Search Product" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <button className="tool-btn" onClick={() => setHistoryOpen(true)}>
+        <button className="tool-btn" onClick={() => { reloadOrders(); setHistoryOpen(true); }}>
           <i className="fa-solid fa-clock-rotate-left" /> History
         </button>
         <select className="sort-select" value={sort} onChange={(e) => setSort(e.target.value)}>
@@ -406,18 +408,20 @@ export default function CatalogDashboard({ portal }) {
                   <p>Invoice : {o.invoiceNumber}</p>
                   <p>Date : {formatDate(o.createdAt)}</p>
                 </div>
-                <span className={`order-status ${o.status.toLowerCase()}`}>{o.status}</span>
+                <span className={`os os-${statusClass(o.status)}`}><i className={`fa-solid ${STATUS_ICON[o.status]}`} /> {o.status}</span>
               </div>
+              {/* Delivery tracking: step bar, and the full timeline (with staff notes) when expanded */}
+              <div className="order-track"><OrderTracker order={o} compact={!open} showStaff={false} /></div>
               <div className="order-summary">
                 <div><strong>Items</strong><p>{o.items.length} Products</p></div>
                 <div><strong>Total Amount</strong><p>{inr(o.total)} · {o.paymentStatus}</p></div>
               </div>
               <div className="order-actions">
                 <button className="btn-primary" onClick={() => setExpanded(open ? null : o.id)}>
-                  <i className={`fa-solid fa-chevron-${open ? 'up' : 'down'}`} /> {open ? 'Hide' : 'View'} Products
+                  <i className={`fa-solid fa-chevron-${open ? 'up' : 'down'}`} /> {open ? 'Hide details' : 'Track & view products'}
                 </button>
                 <button className="btn-success" onClick={() => setBillId(o.id)}><i className="fa-solid fa-file-invoice" /> View Bill</button>
-                {o.status === 'Pending' && (
+                {o.status === 'Placed' && (
                   <button className="btn-danger" onClick={() => setCancelId(o.id)}><i className="fa-solid fa-ban" /> Cancel Order</button>
                 )}
               </div>

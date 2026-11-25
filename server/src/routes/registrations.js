@@ -60,7 +60,7 @@ router.post('/:id/approve', async (req, res) => {
 
   const ts = now();
   const user = await db.transaction(async (trx) => {
-    const [id] = await trx('users').insert({
+    const [id] = await trx('users').insertGetId({
       code: await nextCode(trx('users'), 'code', cfg.prefix),
       role,
       name,

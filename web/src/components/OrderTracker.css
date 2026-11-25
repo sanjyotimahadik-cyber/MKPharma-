@@ -1,0 +1,98 @@
+/* OrderTracker: delivery step bar + change log. Global but prefixed .otk. */
+.otk {
+  --otk-done: #16a34a;
+  --otk-current: #2563eb;
+  --otk-todo: #cbd5e1;
+
+  .otk-steps {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    list-style: none;
+
+    li {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      text-align: center;
+
+      /* connector to the previous step */
+      &:not(:first-child)::before {
+        content: '';
+        position: absolute;
+        top: 16px;
+        right: 50%;
+        width: 100%;
+        height: 3px;
+        background: var(--otk-todo);
+        z-index: 0;
+      }
+      &.done:not(:first-child)::before,
+      &.current:not(:first-child)::before { background: var(--otk-done); }
+    }
+
+    .dot {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid var(--otk-todo);
+      color: #94a3b8;
+      font-size: 13px;
+    }
+    .done .dot { background: var(--otk-done); border-color: var(--otk-done); color: #fff; }
+    .current .dot { border-color: var(--otk-current); color: var(--otk-current); box-shadow: 0 0 0 5px rgba(37, 99, 235, .14); }
+
+    b { font-size: 12px; font-weight: 600; color: #334155; line-height: 1.25; }
+    .todo b { color: #94a3b8; font-weight: 500; }
+    small { font-size: 11px; color: #64748b; min-height: 14px; }
+  }
+
+  &.cancelled .otk-steps {
+    .done .dot { background: #94a3b8; border-color: #94a3b8; }
+    li.done:not(:first-child)::before { background: #94a3b8; }
+  }
+
+  .otk-cancelled {
+    margin-top: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .otk-log {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+    list-style: none;
+
+    li { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: start; }
+    .os { justify-self: start; }
+    time { font-size: 13px; font-weight: 600; color: #1f2937; }
+    .by { margin-left: 8px; font-size: 12.5px; color: #64748b; }
+    p { margin-top: 2px; font-size: 13px; color: #475569; }
+  }
+}
+
+@media (max-width: 520px) {
+  .otk {
+    .otk-steps {
+      .dot { width: 28px; height: 28px; font-size: 11px; }
+      li:not(:first-child)::before { top: 13px; }
+      b { font-size: 10.5px; }
+      small { display: none; }
+    }
+    .otk-log li { grid-template-columns: 1fr; gap: 4px; }
+  }
+}

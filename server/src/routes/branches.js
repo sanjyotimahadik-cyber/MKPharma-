@@ -53,7 +53,7 @@ router.post('/', async (req, res) => {
   c.code ||= await nextCode(db('branches'), 'code', 'BR-', 3);
   await assertCodeFree(c.code);
   const ts = now();
-  const [id] = await db('branches').insert({ ...c, created_at: ts, updated_at: ts });
+  const [id] = await db('branches').insertGetId({ ...c, created_at: ts, updated_at: ts });
   res.status(201).json(serialize(await find(id)));
 });
 

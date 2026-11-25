@@ -1,10 +1,23 @@
 import knex from 'knex';
 import config from '../knexfile.js';
 
-const db = knex(config);
+// insertGetId(row) inserts one row and resolves to [newId] on every driver:
+// Postgres only returns the id with RETURNING, SQLite and MySQL return it directly.
+knex.QueryBuilder.extend('insertGetId', function (row) {
+  const q = this.insert(row);
+  return this.client.config.client === 'mysql2' ? q : q.returning('id').queryContext({ insertId: true });
+});
+
+const db = knex({
+  ...config,
+  postProcessResponse: (res, ctx) => (ctx?.insertId ? res.map((r) => r?.id ?? r) : res),
+});
 export default db;
 
-/** 'YYYY-MM-DD HH:MM:SS' in local time. Use for every timestamp column (portable across SQLite and MySQL). */
+/** Case-insensitive LIKE for search boxes (Postgres LIKE is case-sensitive). */
+export const LIKE = config.client === 'pg' ? 'ilike' : 'like';
+
+/** 'YYYY-MM-DD HH:MM:SS' in local time. Use for every timestamp column (portable across SQLite, MySQL and Postgres). */
 export const now = (d = new Date()) => {
   const p = (n) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;

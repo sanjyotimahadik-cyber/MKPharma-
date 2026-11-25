@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import Modal from '../../components/Modal.jsx';
 import { useToast } from '../../components/Toast.jsx';
 import { api, qs } from '../../lib/api.js';
@@ -60,6 +60,7 @@ export default function EmployeeDashboard() {
   const history = useApi(`/attendance/me${qs({ month: filters.month === 'all' ? '' : filters.month, year: filters.year === 'all' ? '' : filters.year })}`);
   const notifs = useApi('/notifications', []);
   const leaves = useApi('/leaves/me', []);
+  const orderCounts = useApi('/orders/counts', {}).data;
 
   useEffect(() => {
     api.get('/users/me').then((u) => { updateCurrentUser(u); setUser(u); }).catch(() => {});
@@ -236,6 +237,35 @@ export default function EmployeeDashboard() {
             <label>Status</label>
             <span className={`status ${user?.status === 'Active' ? 'active' : 'inactive'}`}>{user?.status ?? 'Active'}</span>
           </div>
+        </div>
+      </section>
+
+      <section className="card">
+        <div className="card-header">
+          <h2><i className="fa-solid fa-briefcase" /> Work</h2>
+        </div>
+        <div className="work-grid">
+          <Link to="/employee/orders" className="work-tile">
+            <span className="work-icon blue"><i className="fa-solid fa-truck-fast" /></span>
+            <div>
+              <h3>Orders</h3>
+              <p>Confirm, pack, dispatch and deliver orders from doctors and pharmacies.</p>
+              <ul className="work-counts">
+                {[['Placed', 'to confirm'], ['Confirmed', 'to pack'], ['Packed', 'to dispatch'], ['Out for Delivery', 'on the road']].map(([s, label]) => (
+                  <li key={s} className={orderCounts[s] ? 'has' : ''}><b>{orderCounts[s] ?? 0}</b> {label}</li>
+                ))}
+              </ul>
+            </div>
+            <i className="fa-solid fa-arrow-right go" />
+          </Link>
+          <Link to="/employee/inventory" className="work-tile">
+            <span className="work-icon green"><i className="fa-solid fa-boxes-stacked" /></span>
+            <div>
+              <h3>Inventory</h3>
+              <p>Products, prices, stock in and out, low-stock and expiry reports.</p>
+            </div>
+            <i className="fa-solid fa-arrow-right go" />
+          </Link>
         </div>
       </section>
 
