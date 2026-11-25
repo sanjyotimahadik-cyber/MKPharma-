@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Navigate } from 'react-router';
+import { Link, Navigate, useSearchParams } from 'react-router';
 import { getToken } from '../lib/api.js';
 import { currentUser, HOME, register } from '../lib/auth.js';
 import { ROLES } from '../lib/roles.js';
@@ -8,7 +8,9 @@ import './Login.css';
 const BLANK = { name: '', email: '', phone: '', password: '', confirm: '' };
 
 export default function Register() {
-  const [role, setRole] = useState(null);
+  const [params] = useSearchParams();
+  // Links like /register?role=doctor open the form with that role already chosen.
+  const [role, setRole] = useState(() => (ROLES[params.get('role')] ? params.get('role') : null));
   const [form, setForm] = useState(BLANK);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
