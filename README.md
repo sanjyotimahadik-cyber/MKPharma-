@@ -1,75 +1,89 @@
 # MK Animal Health ERP
-> Smart Enterprise Resource Planning & Veterinary Distribution Management System
+> Veterinary distribution management system — React web app + Node.js API
 
-MK Animal Health ERP is a specialized distribution management and field-force automation system engineered for the veterinary pharmaceutical industry. It bridges headquarters, manufacturing branches, medical representatives (MRs), veterinary doctors, and retail pharmacies into a unified platform.
+Distribution management and field-force app for a veterinary pharmaceutical company, connecting head office, medical representatives (MRs), veterinary doctors, pharmacies and staff.
 
----
-
-## 🌟 Key Functional Portals
-
-1. **Administrator Portal (`/Frontend/admin/`)**:
-   - Real-time executive dashboard with monthly sales, revenue, orders, and dynamic Chart.js analytics.
-   - Comprehensive Product Management catalog with veterinary formulations, pricing, and stock controls.
-   - Live Stock Analysis & Expiry risk tracking.
-   - Target Tracking & Incentive management for territory teams.
-   - Branch Management & Stock Inter-depot transfers.
-   - Billing & GST Invoicing engine with printable tax invoices.
-   - Attendance & Shift oversight.
-   - Multi-role User Management (Admins, MRs, Doctors, Pharmacies, Employees).
-
-2. **Medical Representative (MR) Portal (`/Frontend/mr/`)**:
-   - Field force automation with one-click HTML5 GPS Geo-location capture.
-   - Clinic & Dairy farm doctor visit logging with geo-tagged photo proofs.
-   - Sample distribution records and product detailing notes.
-   - Assigned territory target progress tracking.
-
-3. **Veterinary Doctor Portal (`/Frontend/doctor/`)**:
-   - Clinical product monograph catalog (indications, composition, dosage guides).
-   - Instant clinical sample request dispatch to assigned MR.
-   - Direct medicine ordering and prescription reorder history.
-   - Target and annual incentive dashboard.
-
-4. **Veterinary Pharmacy Portal (`/Frontend/chemist/`)**:
-   - B2B wholesale trade ordering with bulk slab pricing and GST calculation.
-   - Order history with downloadable tax invoices.
-   - Damaged/Expired goods return claim submission.
-
-5. **Employee Portal (`/Frontend/Employees/`)**:
-   - Staff clock-in/clock-out shift timer.
-   - Leave request management and attendance history.
-   - Internal announcements and department circulars.
+- **`web/`** — React 19 + Vite single-page app.
+- **`server/`** — Node.js REST API (Express 5 + Knex). Uses SQLite out of the box (`server/data/dev.sqlite3`, created and seeded automatically on first start); switch to MySQL with `server/.env` (see `server/.env.example`).
+- **`Database/`** — original MySQL schema drafts (the live schema is `server/migrations/`).
 
 ---
 
 ## 🚀 Quick Start
 
-Open `Frontend/index.html` in any modern web browser or run a local static web server:
+Requires Node.js 22+.
 
 ```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js
-npx serve Frontend
+npm run setup      # install root, server and web dependencies
+npm run dev        # API on http://localhost:4000 + web on http://localhost:5173
+npm run db:reset   # rebuild the database with fresh demo data
+npm run build      # production build of the web app (web/dist)
 ```
 
-### Demo Credentials
+### Signing in
 
-| Role | Username | Password | Default Portal |
+Sign in with email and password at `/login`.
+
+- **Register:** new users open `/register`, pick a role (MR, Doctor, Pharmacy or Employee; **Admin is never offered**) and fill in their details. This creates a *pending request*, and they cannot sign in yet.
+- **Approve:** admins review requests under **Admin → Registration Requests** (`/admin/registrations`). They can **approve** as requested, **change the role** (and its details) before approving, or **reject** with an optional reason. Approval creates the account with the next code (e.g. `MR004`) and the password the user chose.
+- **Admin accounts** never come from registration. On start, the API makes sure the admin in `server/.env` (`ADMIN_EMAIL` / `ADMIN_PASSWORD`) exists and can sign in; an existing admin's password is not overwritten. Further admins can be added directly in the database.
+
+Demo accounts (seeded):
+
+| Role | Email | Password | Portal |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin100` | `1234500` | Admin Dashboard |
-| **Medical Representative** | `mr100` | `1234` | MR Field Dashboard |
-| **Veterinary Doctor** | `doc100` | `567800` | Doctor Clinical Portal |
-| **Pharmacy / Chemist** | `pharma100` | `5678` | Pharmacy B2B Portal |
-| **Employee** | `emp100` | `12345` | Staff Workspace |
+| **Administrator** | `ADMIN_EMAIL` from `server/.env` | `ADMIN_PASSWORD` | `/admin` |
+| **Medical Representative** | mr@mkanimalhealth.com | demo1234 | `/mr` |
+| **Veterinary Doctor** | doctor@mkanimalhealth.com | demo1234 | `/doctor` |
+| **Pharmacy / Chemist** | pharmacy@mkanimalhealth.com | demo1234 | `/pharmacy` |
+| **Employee** | employee@mkanimalhealth.com | demo1234 | `/employee` |
+
+Three pending registration requests are seeded too, so there is something to review straight away.
+
+### Using MySQL
+
+Create the database (`CREATE DATABASE mk_animal_health;`), copy `server/.env.example` to `server/.env`, set `DB_CLIENT=mysql` and your credentials, then run `npm run db:reset`.
+
+---
+
+## 🌟 Portals
+
+1. **Administrator** (`/admin`): live dashboard (sales KPIs and trends, monthly sales, sales by category, recent orders, low stock, notifications), billing & invoices (status, payments, printable invoices, CSV), products (CRUD, image upload), stock analysis (adjustments with history, sales charts), branches, user management (employees, MRs, doctors, pharmacies; MR assignment; CSV import/export), attendance & leave approvals, target tracking, settings (company, profile, password, billing/GST, inventory alerts, notification switches, backups).
+2. **Medical Representative** (`/mr`): check-in/out with GPS, assigned doctors & pharmacies, visit logging with GPS, visit and target progress.
+3. **Veterinary Doctor** (`/doctor`) and **Pharmacy** (`/pharmacy`): catalogue, cart and checkout (stock-checked, GST from settings), order history, bills, cancelling pending orders, personal targets.
+4. **Employee** (`/employee`): check-in/out, attendance history and summary, leave requests, notifications, profile and password.
+
+---
+
+## 🗂️ Project Structure
+
+```
+server/
+  migrations/           database schema (Knex)
+  seeds/                demo data (01_core … 06_stock)
+  src/
+    app.js              Express app, route mounting, error handling
+    auth.js             token auth + requireRole
+    routes/             one router per area (products, orders, users, attendance, mr, targets, ...)
+web/
+  public/assets/        logo and product images
+  src/
+    App.jsx             routes (pages are lazy-loaded)
+    components/         Modal, Toast, BackLink, RequireAuth
+    lib/                api client, useApi hook, auth session, charts, formatters
+    pages/              one folder per portal; each page has its own scoped CSS
+Database/               original MySQL schema drafts
+```
+
+Page styles are scoped under a root class (e.g. `.pg-products`) using native CSS nesting, so styles from one page never leak into another.
 
 ---
 
 ## 🗄️ Database Schemas
 
-The [Database/](file:///c:/Users/Sanjyoti/OneDrive/Desktop/MK-Animal-Health-ERP/Database) folder contains 12 production-ready MySQL SQL schema definitions:
-- `schema.sql`: Core foundation, RBAC roles, products, inventory, transactions.
-- `billing.sql`: Orders, invoices, line items, payments.
-- `doctors.sql` & `doctor_management.sql`: Doctor profiles, clinic links, targets.
-- `mr_*.sql`: MR field visits, GPS tracking, photo proof logs, feedback, monthly summaries.
-- `announcements.sql`: Internal communications and notices.
+[`Database/`](Database) holds the MySQL schema definitions for the planned backend:
+- `schema.sql`: core foundation, roles, products, inventory, transactions.
+- `billing.sql`: orders, invoices, line items, payments.
+- `doctors.sql` & `doctor_management.sql`: doctor profiles, clinic links, targets.
+- `mr_*.sql`: MR field visits, GPS tracking, photo proofs, feedback, monthly summaries.
+- `announcements.sql`: internal communications and notices.
