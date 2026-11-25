@@ -1,0 +1,72 @@
+.pg-splash {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10vh 16px;
+  text-align: center;
+
+  .logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgb(0 0 0 / 10%));
+    animation: splash-rise 2s ease both;
+  }
+
+  .company {
+    animation: splash-fade 1s ease 1.8s both;
+  }
+
+  .company h1 {
+    font-size: clamp(32px, 7vw, 58px);
+    color: var(--brand);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .company p {
+    margin-top: 12px;
+    color: #666;
+    font-size: clamp(16px, 3vw, 21px);
+    font-weight: 500;
+  }
+
+  .enter-btn {
+    width: 200px;
+    height: 72px;
+    border: none;
+    border-radius: 35px;
+    background: var(--primary-800);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    animation: splash-fade 0.8s ease 2.6s both;
+    transition: background 0.3s, transform 0.3s;
+    box-shadow: 0 12px 30px rgb(18 63 130 / 25%);
+  }
+
+  .enter-btn span {
+    margin-left: 10px;
+    transition: margin 0.3s;
+  }
+
+  .enter-btn:hover {
+    background: #1957a7;
+    transform: translateY(-3px);
+  }
+
+  .enter-btn:hover span {
+    margin-left: 20px;
+  }
+}
+
+@keyframes splash-rise {
+  from { opacity: 0; transform: translateY(220px) scale(0.5); }
+}
+
+@keyframes splash-fade {
+  from { opacity: 0; transform: translateY(25px); }
+}

@@ -1,0 +1,331 @@
+.pg-mr {
+  --primary: #1e88e5;
+  --primary-dark: #1565c0;
+  --success: #2e7d32;
+  --warning: #f9a825;
+  --danger: #d32f2f;
+  --bg: #f4f7fb;
+  --border: #d9e2ec;
+  --text: #263238;
+  --text-light: #607d8b;
+  --shadow: 0 8px 20px rgba(0, 0, 0, .08);
+  --radius: 12px;
+
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 40px;
+    background: #fff;
+    box-shadow: var(--shadow);
+
+    h1 { font-size: 28px; font-weight: 600; color: var(--primary-dark); }
+  }
+
+  .company-info { display: flex; align-items: center; gap: 15px; }
+  .company-text { text-align: right; }
+  .company-text h2 { font-size: 22px; color: var(--primary-dark); }
+  .company-text span { color: var(--text-light); font-size: 14px; }
+  .company-logo { width: 60px; height: 60px; object-fit: contain; }
+
+  .logout-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--danger);
+    font-size: 18px;
+    cursor: pointer;
+    transition: .3s;
+
+    &:hover { background: var(--danger); color: #fff; }
+  }
+
+  .dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    padding: 30px 40px;
+  }
+
+  .dashboard-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: .3s;
+
+    &:hover { transform: translateY(-5px); }
+    h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  }
+
+  .card-icon {
+    flex-shrink: 0;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary);
+    color: #fff;
+    font-size: 26px;
+  }
+
+  .card-value { font-size: 22px; font-weight: 700; color: var(--primary-dark); }
+
+  .doctor-section {
+    margin: 0 40px 40px;
+    padding: 25px;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    h2 { font-size: 24px; font-weight: 600; color: var(--primary-dark); }
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 280px;
+    padding: 10px 15px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    i { color: var(--text-light); font-size: 16px; }
+
+    input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 15px;
+      color: var(--text);
+    }
+  }
+
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .doctor-table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+
+    thead { background: var(--primary); }
+    th { padding: 16px; text-align: left; color: #fff; font-size: 15px; font-weight: 600; }
+    td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    tbody tr { transition: .3s; }
+    tbody tr:hover { background: #eef6ff; }
+  }
+
+  .status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+
+    &.pending { background: var(--warning); }
+    &.visited { background: var(--success); }
+  }
+
+  .visit-btn, .view-btn, .save-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: .3s;
+  }
+
+  .visit-btn, .save-btn { background: var(--primary); }
+  .visit-btn:hover, .save-btn:hover { background: var(--primary-dark); }
+  .view-btn { background: var(--success); }
+  .view-btn:hover { opacity: .9; }
+  .save-btn { width: 100%; margin-top: 5px; }
+  button:disabled { opacity: .6; cursor: wait; }
+
+  .att-btn {
+    margin-top: 8px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background: var(--success);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .att-done, .sub { display: block; color: var(--text-light); font-size: 12px; }
+  .empty { text-align: center; color: var(--text-light); }
+
+  .targets h2 { font-size: 22px; font-weight: 600; color: var(--primary-dark); margin-bottom: 16px; }
+
+  .target-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 16px;
+  }
+
+  .target {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    small { color: var(--text-light); font-size: 12px; }
+  }
+
+  .target-head { display: flex; justify-content: space-between; gap: 10px; span { font-weight: 700; color: var(--primary-dark); } }
+
+  .bar {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--bg);
+    overflow: hidden;
+
+    span { display: block; height: 100%; background: var(--primary); }
+  }
+
+  @media (max-width: 992px) {
+    .topbar { padding: 18px 25px; }
+    .dashboard-container { grid-template-columns: repeat(2, 1fr); padding: 25px; }
+    .doctor-section { margin: 0 25px 25px; }
+    .search-box { width: 100%; min-width: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .topbar { flex-direction: column; text-align: center; }
+    .company-text { text-align: center; }
+    .dashboard-container { grid-template-columns: 1fr; padding: 20px 16px; }
+    .section-header { flex-direction: column; align-items: stretch; }
+    .doctor-section { margin: 0 16px 20px; padding: 20px 16px; }
+  }
+
+  @media (max-width: 576px) {
+    .topbar h1 { font-size: 24px; }
+    .company-text h2 { font-size: 18px; }
+    .company-logo { width: 50px; height: 50px; }
+    .dashboard-card { flex-direction: column; text-align: center; }
+    .card-icon { width: 55px; height: 55px; font-size: 22px; }
+    .card-value { font-size: 20px; }
+  }
+
+
+  .mr-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, .45);
+
+    .modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+
+      h2 { color: var(--primary-dark); margin-bottom: 20px; }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 18px;
+      border: none;
+      background: none;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: .3s;
+
+      &:hover { color: var(--danger); }
+    }
+
+    .visit-details {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      font-size: 15px;
+
+      label { display: flex; flex-direction: column; gap: 8px; font-weight: 600; }
+
+      input, textarea, select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        outline: none;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 400;
+        resize: vertical;
+        transition: .3s;
+
+        &:focus { border-color: var(--primary); }
+      }
+    }
+
+    .gps {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+
+      a { color: var(--primary); word-break: break-all; }
+    }
+
+    .gps-btn {
+      border: none;
+      background: var(--bg);
+      color: var(--primary);
+      border-radius: 6px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .modal-content { padding: 20px; }
+    }
+  }
+}
